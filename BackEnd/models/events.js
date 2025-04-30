@@ -2,45 +2,44 @@ const Sequelize = require("sequelize");
 
 
 module.exports= (sequelize) => {
-    const Ceremonialist  = sequelize.define('Ceremonialist',{
+    const Events  = sequelize.define('Events',{
         id:{
             type:Sequelize.INTEGER,
             autoIncrement:true,
             primaryKey:true,
             allowNull:false
         },
+        Description:{
+            type:Sequelize.STRING,
+            allowNull:false
+        },
         name:{
             type:Sequelize.STRING,
             allowNull:false
         },
-        email:{
-            type:Sequelize.STRING,
-            allowNull:false
-        },
-        password:{
-            type:Sequelize.STRING,
-            allowNull:false
-        },
-        CNPJ:{
-            type:Sequelize.STRING,
-            allowNull:true
-        },
-        birthDate:{
+        date:{
             type:Sequelize.DATE,
             allowNull:false
         },
-        adress:{
+        status:{
             type:Sequelize.STRING,
-            allowNull:true
+            allowNull:false
         },
     });
-
-    Ceremonialist.associate = (models) => {
-        Ceremonialist.hasMany(models.Events, {
+    Events.associate = (models) => {
+        Events.belongsTo(models.Client, {
+            foreignKey: 'clientId',
+            as: 'client'
+        });
+        Events.belongsTo(models.Ceremonialist, {
             foreignKey: 'ceremonialistId',
-            as: 'events'
+            as: 'ceremonialist'
+        });
+        Events.hasMany(models.Task, {
+            foreignKey: 'eventId',
+            as: 'tasks'
         });
     };
 
-    return Ceremonialist;
+    return Events;
 }

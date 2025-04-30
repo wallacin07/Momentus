@@ -1,8 +1,7 @@
 const Sequelize = require("sequelize");
 
-
 module.exports= (sequelize) => {
-    const Ceremonialist  = sequelize.define('Ceremonialist',{
+    const Deliveres  = sequelize.define('Deliveres',{
         id:{
             type:Sequelize.INTEGER,
             autoIncrement:true,
@@ -17,30 +16,25 @@ module.exports= (sequelize) => {
             type:Sequelize.STRING,
             allowNull:false
         },
-        password:{
+        number:{
             type:Sequelize.STRING,
-            allowNull:false
-        },
-        CNPJ:{
-            type:Sequelize.STRING,
-            allowNull:true
-        },
-        birthDate:{
-            type:Sequelize.DATE,
             allowNull:false
         },
         adress:{
             type:Sequelize.STRING,
-            allowNull:true
+            allowNull:false
         },
     });
 
-    Ceremonialist.associate = (models) => {
-        Ceremonialist.hasMany(models.Events, {
-            foreignKey: 'ceremonialistId',
+    Deliveres.associate = (models) => {
+        Deliveres.hasMany(models.Events, {
+            foreignKey: 'deliveresId',
             as: 'events'
         });
-    };
-
-    return Ceremonialist;
+        Deliveres.belongsTo(models.Suppliers, {
+            foreignKey: 'supplierId',
+            as: 'suppliers'
+        });
+    }
+    return Deliveres;
 }
