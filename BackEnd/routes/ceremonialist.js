@@ -5,34 +5,29 @@ const db =require('../models') // carregando o banco de dados
 const auth = require('../auth')
 
 //Carregando as classes service e controller da user
-const UserService = require('../services/userService');
-const UserController = require('../controllers/userController');
+const CeremonialistService = require('../services/ceremonialistService');
+const CeremonialistController = require('../controllers/ceremonialistController');
 const req = require('express/lib/request');
 
 //Construir os objetos a partir das classes
-const userService = new UserService(db.User);
-const userController = new UserController(userService);
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('Módulo de usuários rodando.');
-});
+const ceremonialistService = new CeremonialistService(db.User);
+const ceremonialistController = new CeremonialistController(ceremonialistService);
 
 //Rota para registrar novo usuário
 router.post('/newUser', async (req,res)=>{
-  userController.createUser(req,res);
+    ceremonialistController.createUser(req,res);
 });
 
 router.get('/AllUsers',auth.verifyToken,async(req,res)=>{
-  userController.findAllUsers(req,res);
+    ceremonialistController.findAllUsers(req,res);
 })
 
 router.get('/GetByPk',async(req,res)=>{
-  userController.getByPk(req,res);
+    ceremonialistController.getByPk(req,res);
 })
 
 router.post('/login',async(req,res)=>{
-  userController.login(req,res);
+    ceremonialistController.login(req,res);
 });
 
 router.get('/verifyToken',auth.verifyToken);

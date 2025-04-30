@@ -1,7 +1,7 @@
 // ./services/userService.js
 
-const db = require('../models');
-const auth = require('../auth');
+const db = require('../../models');
+const auth = require('../../auth');
 const bcrypt = require('bcrypt');
 
 var round_salts=10;
