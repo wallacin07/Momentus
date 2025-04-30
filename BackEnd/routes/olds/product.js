@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const db =require('../models');
+const db =require('../../models');
 
 const ProductService = require('../services/productService');
 const ProductController = require('../controllers/productController');

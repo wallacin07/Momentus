@@ -1,5 +1,5 @@
 const { where } = require('sequelize');
-const db = require('../models');
+const db = require('../../models');
 
 
 class PaymentService{

@@ -5,14 +5,10 @@ var logger = require('morgan');
 var cors = require('cors');
 
 var sequelize = require('./models').sequelize;
-var user = require('./models/user')(sequelize);
 
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var productRouter = require('./routes/product');
-var cartRouter = require('./routes/cart');
-var paymentRouter = require('./routes/payment');
+var ceremonialistRouter = require('./routes/ceremonialist')
 
 var app = express();
 
@@ -24,10 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/products',productRouter);
-app.use('/cart',cartRouter);
-app.use('/payment',paymentRouter)
+app.use('/ceremonialist',ceremonialistRouter);
 
 var db = require('./models');
 
