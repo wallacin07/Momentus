@@ -93,7 +93,7 @@ export function LoginForm() {
                     </div>
                     <a href="" className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>Esqueceu a senha?</a>
                 </div>
-                <Button type="submit" className="w-full mt-6">Submit</Button>
+                <Button type="submit" className="w-full mt-6">Sign In</Button>
             </form>
         </Form>
     )
