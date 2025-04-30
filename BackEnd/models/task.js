@@ -1,34 +1,35 @@
-const { type } = require("express/lib/response");
 const Sequelize = require("sequelize");
 
-
 module.exports= (sequelize) => {
-    const User = require('./user')(sequelize);  
-    const Payment  = sequelize.define('Payment',{
+    const Task  = sequelize.define('Task',{
         id:{
             type:Sequelize.INTEGER,
             autoIncrement:true,
             primaryKey:true,
             allowNull:false
         },
-        totalPrice:{
-            type:Sequelize.FLOAT,
+        Description:{
+            type:Sequelize.STRING,
+            allowNull:false
+        },
+        name:{
+            type:Sequelize.STRING,
+            allowNull:false
+        },
+        date:{
+            type:Sequelize.DATE,
             allowNull:false
         },
         status:{
             type:Sequelize.STRING,
             allowNull:false
         },
-        paymentMethods:{
-            type:Sequelize.STRING,
-            allowNull:false
-        }
     });
-
-    Payment.belongsTo(User,{
-        constraint: true,
-        foreignKey: 'IdUser'
-    })
-    return Payment
+    Task.associate = (models) => {
+        Task.belongsTo(models.Events, {
+            foreignKey: 'eventId',
+            as: 'event'
+        });
+    };
+    return Task;
 }
-
