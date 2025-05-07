@@ -14,7 +14,7 @@ async function generateToken(user){
 async function verifyToken(req,res,next){
     const authheader = req.headers["authorization"];
     if(!authheader) return res.status(401).json({message:"Token não informado"});
-    const token = authheader//.split(' ')[1];
+    const token = authheader.split(' ')[1];
     if(!token){
         return res.status(401).json({message:"Token não informado"});
     }
