@@ -9,6 +9,7 @@ var sequelize = require('./models').sequelize;
 
 var indexRouter = require('./routes/index');
 var ceremonialistRouter = require('./routes/ceremonialist')
+var clientRouter = require('./routes/client');
 
 var app = express();
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/ceremonialist',ceremonialistRouter);
+app.use('/client',clientRouter);
 
 var db = require('./models');
 
@@ -30,15 +32,6 @@ async function applyDataStructure(){
 
 applyDataStructure()
 
-// if (process.env.NODE_ENV !== 'production') {
-//     sequelize.sync({ force: true }) // use 'force: true' para recriar as tabelas a cada inicialização (útil em dev)
-//         .then(() => {
-//             console.log('Banco de dados sincronizado');
-//         })
-//         .catch(err => {
-//             console.error('Erro ao sincronizar o banco de dados:', err);
-//         });
-// }
 
 var port = 8080;
 app.listen(port,()=>{
