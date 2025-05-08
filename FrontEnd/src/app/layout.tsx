@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster as Sonner } from "./baseComponents/sonner";
+import { Toaster } from "./baseComponents/toaster";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner"
+
+import { TooltipProvider } from "./baseComponents/tooltip";
 
 
 export const metadata: Metadata = {
@@ -20,7 +23,11 @@ export default function RootLayout({
       <body
         className={` antialiased`}
       >
-      <Toaster/>
+            <TooltipProvider>
+            <Toaster />
+              <Sonner/>
+            </TooltipProvider>
+   
         {children}
       </body>
     </html>
