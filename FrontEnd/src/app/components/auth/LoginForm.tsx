@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Loader, Eye, EyeOff } from 'lucide-react';
+import axios from 'axios';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'E-mail inválido' }),
@@ -37,6 +38,27 @@ const LoginForm = ({ onToggle }: LoginFormProps) => {
     
     try {
       // Simulate API call
+      await axios
+      .post('http://localhost:8080/ceremonialist/login', data)
+      .then((response) => {
+        // response: objeto completo retornado pelo Axios
+        console.log('Status HTTP:', response.status);        // e.g. 201
+        console.log('Headers:', response.headers);
+        console.log('Body da resposta:', response.data);     // o que o seu back enviou
+      })
+      .catch((error) => {
+        if (error.response) {
+          // Servidor respondeu com código de erro (4xx, 5xx)
+          console.error('Erro no servidor:', error.response.status, error.response.data);
+        } else if (error.request) {
+          // Pedido foi enviado mas não houve resposta
+          console.error('Nenhuma resposta recebida:', error.request);
+        } else {
+          // Algum outro erro aconteceu montando o pedido
+          console.error('Erro ao montar requisição:', error.message);
+        }
+      });
+
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       console.log('Login data:', data);

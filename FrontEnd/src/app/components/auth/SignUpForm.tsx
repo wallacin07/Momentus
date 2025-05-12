@@ -1,89 +1,126 @@
-
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Loader, Eye, EyeOff } from 'lucide-react';
+import axios from 'axios'
 
-const signupSchema = z.object({
-  name: z.string().min(3, { message: 'O nome precisa ter pelo menos 3 caracteres' }),
-  email: z.string().email({ message: 'E-mail inválido' }),
-  password: z.string().min(6, { message: 'A senha precisa ter pelo menos 6 caracteres' }),
-  confirmPassword: z.string(),
-  acceptTerms: z.boolean().refine(val => val === true, { message: 'Você precisa aceitar os termos de uso' }),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "As senhas não coincidem",
-  path: ["confirmPassword"],
-});
+// 1) Schema Zod: espera um string ISO-date, transforma em Date e aplica validações
+const signupSchema = z
+  .object({
+    name: z.string().min(3, { message: 'O nome precisa ter pelo menos 3 caracteres' }),
+    CNPJ: z.string().min(14, { message: 'Insira o CNPJ correto' }),
+    email: z.string().email({ message: 'E-mail inválido' }),
+    birthDate: z
+      .preprocess(
+        (val) =>
+          typeof val === 'string' && val.length > 0
+            ? new Date(val)
+            : new Date(), // se vier vazio, usa agora
+        z.date()
+      ),
+    adress: z.string(),
+    password: z.string().min(6, { message: 'A senha precisa ter pelo menos 6 caracteres' }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'As senhas não coincidem',
+    path: ['confirmPassword'],
+  });
 
-type SignupFormValues = z.infer<typeof signupSchema>;
+// Tipo de saída do Zod (já com birthDate: Date)
+type SignupData = z.infer<typeof signupSchema>;
+
+// Tipo “raw” do formulário (tudo string/boolean)
+type SignupFormRaw = Omit<SignupData, 'birthDate'> & { birthDate: string };
 
 interface SignupFormProps {
   onToggle: () => void;
 }
 
-const SignupForm = ({ onToggle }: SignupFormProps) => {
+export default function SignupForm({ onToggle }: SignupFormProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const form = useForm<SignupFormValues>({
-    resolver: zodResolver(signupSchema),
+  // 2) useForm usa o raw type, com birthDate: string
+  const form = useForm<SignupFormRaw>({
     defaultValues: {
       name: '',
+      CNPJ: '',
       email: '',
+      // já puxa a data de hoje em YYYY-MM-DD
+      birthDate: new Date().toISOString().substring(0, 10),
+      adress: '',
       password: '',
       confirmPassword: '',
-      acceptTerms: false,
     },
   });
 
-  const onSubmit = async (data: SignupFormValues) => {
+  // Handler: converte raw → zod→ typed, depois faz o submit
+  const onSubmit: SubmitHandler<SignupFormRaw> = async (raw) => {
     setIsLoading(true);
-    
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log('Signup data:', data);
-      toast({
-        title: 'Cadastro realizado com sucesso',
-        description: 'Você será redirecionado para o dashboard.',
+      // 3) aqui a mágica do Zod: transforma birthDate string→Date, valida tudo
+      const data = signupSchema.parse(raw) as SignupData;
+
+      await axios
+      .post('http://localhost:8080/ceremonialist', data)
+      .then((response) => {
+        // response: objeto completo retornado pelo Axios
+        console.log('Status HTTP:', response.status);        // e.g. 201
+        console.log('Headers:', response.headers);
+        console.log('Body da resposta:', response.data);     // o que o seu back enviou
+      })
+      .catch((error) => {
+        if (error.response) {
+          // Servidor respondeu com código de erro (4xx, 5xx)
+          console.error('Erro no servidor:', error.response.status, error.response.data);
+        } else if (error.request) {
+          // Pedido foi enviado mas não houve resposta
+          console.error('Nenhuma resposta recebida:', error.request);
+        } else {
+          // Algum outro erro aconteceu montando o pedido
+          console.error('Erro ao montar requisição:', error.message);
+        }
       });
-    } catch (error) {
-      toast({
-        title: 'Erro ao criar conta',
-        description: 'Verifique seus dados e tente novamente.',
-        variant: 'destructive',
-      });
+    
+
+      // simula API
+      await new Promise((r) => setTimeout(r, 1500));
+      console.log('Signup:', data);
+      toast({ title: 'Cadastro OK', description: 'Bem-vindo(a)!' });
+    } catch (err: any) {
+      // mostra primeira mensagem de erro, se for do Zod
+      const msg = err?.errors?.[0]?.message ?? 'Erro desconhecido';
+      toast({ title: 'Falha no cadastro', description: msg, variant: 'destructive' });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-playfair font-semibold tracking-tight">Crie sua conta</h1>
-        <p className="text-sm text-muted-foreground">Preencha os campos abaixo para começar</p>
+      <div className="text-center space-y-2">
+        <h1 className="text-2xl font-playfair font-semibold">Crie sua conta</h1>
+        <p className="text-sm text-muted-foreground">Preencha para começar</p>
       </div>
-      
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {/** Nome, CNPJ, E-mail igual ao seu antes… **/}
           <FormField
             control={form.control}
             name="name"
@@ -91,13 +128,25 @@ const SignupForm = ({ onToggle }: SignupFormProps) => {
               <FormItem>
                 <FormLabel>Nome completo</FormLabel>
                 <FormControl>
-                  <Input placeholder="Seu nome completo" {...field} />
+                  <Input placeholder="Seu nome" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          
+          <FormField
+            control={form.control}
+            name="CNPJ"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>CNPJ</FormLabel>
+                <FormControl>
+                  <Input placeholder="00.000.000/0000-00" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -105,18 +154,50 @@ const SignupForm = ({ onToggle }: SignupFormProps) => {
               <FormItem>
                 <FormLabel>E-mail</FormLabel>
                 <FormControl>
-                  <Input 
-                    placeholder="seu@email.com" 
-                    type="email" 
-                    autoComplete="email" 
-                    {...field} 
+                  <Input type="email" placeholder="you@exemplo.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+
+
+          {/** Date input puro, com valor inicial hoje **/}
+          <FormField
+            control={form.control}
+            name="birthDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Data de Nascimento</FormLabel>
+                <FormControl>
+                  <Input
+                    type="date"
+                    {...field}
+                    // value e onChange já vêm no formato string YYYY-MM-DD
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="adress"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Endereço</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Rua dos sonhos 133, Parana - Brasil" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           
+
+          {/** Senha / Confirm **/}
           <FormField
             control={form.control}
             name="password"
@@ -125,17 +206,16 @@ const SignupForm = ({ onToggle }: SignupFormProps) => {
                 <FormLabel>Senha</FormLabel>
                 <div className="relative">
                   <FormControl>
-                    <Input 
-                      placeholder="********" 
-                      type={showPassword ? 'text' : 'password'} 
-                      autoComplete="new-password"
-                      {...field} 
+                    <Input
+                      type={showPassword ? 'text' : 'password'}
+                      {...field}
+                      placeholder="••••••"
                     />
                   </FormControl>
-                  <button 
+                  <button
                     type="button"
-                    className="absolute right-3 top-2.5 text-muted-foreground hover:text-foreground transition-colors"
-                    onClick={togglePasswordVisibility}
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-2.5"
                     tabIndex={-1}
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -145,6 +225,8 @@ const SignupForm = ({ onToggle }: SignupFormProps) => {
               </FormItem>
             )}
           />
+
+
           
           <FormField
             control={form.control}
@@ -154,75 +236,44 @@ const SignupForm = ({ onToggle }: SignupFormProps) => {
                 <FormLabel>Confirmar senha</FormLabel>
                 <div className="relative">
                   <FormControl>
-                    <Input 
-                      placeholder="********" 
-                      type={showConfirmPassword ? 'text' : 'password'} 
-                      autoComplete="new-password"
-                      {...field} 
+                    <Input
+                      type={showConfirm ? 'text' : 'password'}
+                      {...field}
+                      placeholder="••••••"
                     />
                   </FormControl>
-                  <button 
+                  <button
                     type="button"
-                    className="absolute right-3 top-2.5 text-muted-foreground hover:text-foreground transition-colors"
-                    onClick={toggleConfirmPasswordVisibility}
+                    onClick={() => setShowConfirm((v) => !v)}
+                    className="absolute right-3 top-2.5"
                     tabIndex={-1}
                   >
-                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
                 <FormMessage />
               </FormItem>
             )}
           />
-          
-          <FormField
-            control={form.control}
-            name="acceptTerms"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel className="text-xs font-normal">
-                    Concordo com os <a href="#" className="text-primary font-medium hover-underline">termos de uso</a> e <a href="#" className="text-primary font-medium hover-underline">política de privacidade</a>.
-                  </FormLabel>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          
+
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
-                Criando conta...
+                <Loader className="mr-2 h-4 w-4 animate-spin" /> Criando conta…
               </>
             ) : (
               'Criar conta'
             )}
           </Button>
-          
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground">
-              Já tem uma conta?{' '}
-              <button
-                type="button"
-                onClick={onToggle}
-                className="text-primary font-medium hover-underline"
-              >
-                Faça login
-              </button>
-            </p>
-          </div>
+
+          <p className="text-center text-sm text-muted-foreground">
+            Já tem conta?{' '}
+            <button type="button" onClick={onToggle} className="text-primary">
+              Faça login
+            </button>
+          </p>
         </form>
       </Form>
     </div>
   );
-};
-
-export default SignupForm;
+}
