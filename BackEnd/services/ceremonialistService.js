@@ -1,8 +1,6 @@
-
 const db = require('../models');
 const auth = require('../auth');
 const bcrypt = require('bcrypt');
-const { token } = require('morgan');
 
 var round_salts = 10;
 
@@ -11,7 +9,7 @@ class CeremonialistService{
         this.Ceremonialist = CeremonialistModel;
     }
     
-    async create(name,email,password,CNPJ,birthDate,adress){
+    async create(name,email,password,CPF,birthDate,adress){
         const hash = await bcrypt.hash(password,parseInt(round_salts));
         const newCeremonialist = await this.Ceremonialist.create({
             name:name,
