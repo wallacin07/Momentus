@@ -6,12 +6,12 @@ module.exports = class SupplierService {
         this.Supplier = SupplierModel;
     }
 
-    async create(name, email, number, adress, description, CNPJ) {
+    async create(name, email, number, address, description, CNPJ) {
         const newSupplier = await this.Supplier.create({
             name: name,
             email: email,
             number: number,
-            adress: adress,
+            address: address,
             description: description,
             CNPJ: CNPJ,
         });
