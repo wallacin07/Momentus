@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models')
 const auth = require('../auth')
-const req = require('express/lib/request');
 
 const SupplierService = require('../services/supplierService');
 const SupplierController = require('../controllers/supplierController');
