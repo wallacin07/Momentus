@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 
-
 module.exports= (sequelize) => {
     const Suppliers  = sequelize.define('Suppliers',{
         id:{
@@ -25,7 +24,7 @@ module.exports= (sequelize) => {
             type:Sequelize.STRING,
             allowNull:false
         },
-        Description:{
+        description:{
             type:Sequelize.STRING,
             allowNull:false
         },

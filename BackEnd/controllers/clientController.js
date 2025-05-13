@@ -7,9 +7,8 @@ module.exports = class ClientController {
     }
 
     async createClient(req, res) {
-        //processar a request
-        const { name, email, password, CPF, birthDate, adress, number } = req.body;
         try {
+            const { name, email, password, CPF, birthDate, adress, number } = req.body;
             const newClient = await this.ClientService.create(name, email, password, CPF, birthDate, adress, number);
             newClient.dataValues.password = '';
             res.status(200).json(newClient);
