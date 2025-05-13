@@ -40,8 +40,7 @@ module.exports = class SupplierController {
     }
     async updateSupplier(req, res) {
         try {
-            const id = req.params['id'];
-            const { name, email, number, adress, description, CNPJ } = req.body;
+            const { id, name, email, number, adress, description, CNPJ } = req.body;
             const updatedSupplier = await this.supplierService.update(id, name, email, number, adress, description, CNPJ);
             if (updatedSupplier) {
                 res.status(200).json(updatedSupplier);
