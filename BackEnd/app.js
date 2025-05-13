@@ -1,17 +1,18 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var cors = require('cors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors');
 
-var sequelize = require('./models').sequelize;
+const sequelize = require('./models').sequelize;
 
 
-var indexRouter = require('./routes/index');
-var ceremonialistRouter = require('./routes/ceremonialist')
-var clientRouter = require('./routes/client');
+const indexRouter = require('./routes/index');
+const ceremonialistRouter = require('./routes/ceremonialist')
+const clientRouter = require('./routes/client');
+const supplierRouter = require('./routes/supplier');
 
-var app = express();
+const app = express();
 
 app.use(cors())
 app.use(logger('dev'));
@@ -23,8 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/ceremonialist',ceremonialistRouter);
 app.use('/client',clientRouter);
+app.use('/supplier',supplierRouter);
 
-var db = require('./models');
+const db = require('./models');
 
 async function applyDataStructure(){
     await db.sequelize.sync({alter:true});
@@ -33,7 +35,7 @@ async function applyDataStructure(){
 applyDataStructure()
 
 
-var port = 8080;
+const port = 8080;
 app.listen(port,()=>{
     console.log(`http://localhost:${port}`);
 });
