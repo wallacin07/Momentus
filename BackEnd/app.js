@@ -12,6 +12,7 @@ const ceremonialistRouter = require('./routes/ceremonialist')
 const clientRouter = require('./routes/client');
 const supplierRouter = require('./routes/supplier');
 const taskRouter = require('./routes/task');
+const eventRouter = require('./routes/event');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/ceremonialist',ceremonialistRouter);
 app.use('/client',clientRouter);
 app.use('/supplier',supplierRouter);
 app.use('/task',taskRouter);
+app.use('/event',eventRouter);
 
 const db = require('./models');
 

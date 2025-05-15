@@ -18,7 +18,7 @@ module.exports = class TaskService {
             description: description,
             date: date,
             status: status,
-            event: event
+            eventid: eventId
         });
     
         return newTask;
