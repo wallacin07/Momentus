@@ -31,10 +31,17 @@ module.exports= (sequelize) => {
             foreignKey: 'clientId',
             as: 'client'
         });
+
+        Events.hasMany(models.Deliveres, {
+            foreignKey: 'deliveresId',
+            as: 'deliveres'
+        });
+
         Events.belongsTo(models.Ceremonialist, {
             foreignKey: 'ceremonialistId',
             as: 'ceremonialist'
         });
+
         Events.hasMany(models.Task, {
             foreignKey: 'eventId',
             as: 'tasks'
