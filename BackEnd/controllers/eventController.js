@@ -29,7 +29,6 @@ module.exports = class EventController {
 
     async getEventByPk(req, res) {
         let id = req.params['id'];
-        console.log(req.query.Pk);
         try {
             const event = await this.EventService.getByPk(id);
             res.status(200).json(event);
