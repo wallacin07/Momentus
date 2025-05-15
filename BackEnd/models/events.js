@@ -33,7 +33,7 @@ module.exports= (sequelize) => {
         });
 
         Events.hasMany(models.Deliveres, {
-            foreignKey: 'deliveresId',
+            foreignKey: 'eventId',
             as: 'deliveres'
         });
 
