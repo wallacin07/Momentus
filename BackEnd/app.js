@@ -6,13 +6,13 @@ const cors = require('cors');
 
 const sequelize = require('./models').sequelize;
 
-
 const indexRouter = require('./routes/index');
 const ceremonialistRouter = require('./routes/ceremonialist')
 const clientRouter = require('./routes/client');
 const supplierRouter = require('./routes/supplier');
 const taskRouter = require('./routes/task');
 const eventRouter = require('./routes/event');
+const deliveresRouter = require('./routes/deliveres');
 
 const app = express();
 
@@ -29,6 +29,7 @@ app.use('/client',clientRouter);
 app.use('/supplier',supplierRouter);
 app.use('/task',taskRouter);
 app.use('/event',eventRouter);
+app.use('/deliveres',deliveresRouter);
 
 const db = require('./models');
 
@@ -37,7 +38,6 @@ async function applyDataStructure(){
 }
 
 applyDataStructure()
-
 
 const port = 8080;
 app.listen(port,()=>{
