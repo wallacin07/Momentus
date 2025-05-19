@@ -7,7 +7,7 @@ module.exports = class DeliveresService {
         this.Events = EventsModel;
     }
 
-    async create(name, email, number, adress, eventId, supplierId) {
+    async create(name, email, number, address, eventId, supplierId) {
 
         const event = await this.Events.findByPk(eventId);
         if (!event) {
