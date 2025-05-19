@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-const req = require('express/lib/request');
-
 const DeliveresService = require('../services/deliveresService');
 const DeliveresController = require('../controllers/deliveresController');
 
