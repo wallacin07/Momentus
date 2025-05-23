@@ -193,7 +193,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
         
         <button
           type="submit"
-          className="w-full flex items-center justify-center gap-2 bg-soft-black text-white py-3 rounded-md hover:bg-gray-800"
+          className="w-full flex items-center justify-center gap-2 bg-soft-black text-black py-3 rounded-md hover:bg-gray-100"
         >
           Salvar <Check className="w-5 h-5" />
         </button>

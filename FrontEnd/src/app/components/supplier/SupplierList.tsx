@@ -1,16 +1,26 @@
 import React from 'react';
-import SupplierListHeader from './SupplierListHeader';
-import SupplierSearch from './SupplierSearch';
+import SupplierItem, { SupplierData } from './SupplierItem';
 
-interface ClientListHeaderProps {
-  onAddClick: () => void;
+interface SupplierListHeaderProps {
+  suppliers: SupplierData[];
+  onSupplierClick: (supplier: SupplierData) => void;
 }
 
-const ClientList: React.FC<ClientListHeaderProps> = ({ onAddClick }) => {
+const SupplierList: React.FC<SupplierListHeaderProps> = ({suppliers, onSupplierClick}) => {
+
+if (suppliers.length > 0) {
+    return (
+      <div className="mt-6 space-y-4">
+        {suppliers.map((supplier) => (
+          <SupplierItem key={supplier.id} supplier={supplier} onClick={onSupplierClick} />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="mt-8 space-y-6 border-solid border-gray-100 rounded-xl p-4 border-2">
-      <SupplierSearch/>
-        <SupplierListHeader onAddClick={onAddClick}/>
+
       {[...Array(5)].map((_, i) => (
         <div key={i} className="flex items-center gap-4 border border-dashed border-gray-300 p-4 rounded-lg">
           <div className="w-10 h-10 rounded-full bg-gray-200"></div>
@@ -24,4 +34,4 @@ const ClientList: React.FC<ClientListHeaderProps> = ({ onAddClick }) => {
   );
 };
 
-export default ClientList;
+export default SupplierList;

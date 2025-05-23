@@ -10,7 +10,8 @@ import {
   Handshake, 
   Warehouse,
   FileStack,
-  UserCheck
+  UserCheck,
+  UserRoundPlus
 } from 'lucide-react';
 import { Badge } from '../../../baseComponents/badge';
 
@@ -107,6 +108,11 @@ export const Sidebar: FC = () => {
           icon={<FileText size={20} />} 
           label="Orçamentos" 
           to="/orcamentos"
+        />
+        <SidebarItem 
+          icon={<UserRoundPlus size={20} />} 
+          label="Clientes" 
+          to="/client"
         />
         <SidebarItem 
           icon={<FileStack size={20} />} 

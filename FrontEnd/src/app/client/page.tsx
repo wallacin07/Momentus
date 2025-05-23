@@ -78,7 +78,7 @@ const Clients: React.FC = () => {
     setSelectedClient(editedClient);
     
     toast({
-      title: "Fornecedor atualizado",
+      title: "cliente atualizado",
       description: `${editedClient.firstName} foi atualizado com sucesso.`,
     });
   };
