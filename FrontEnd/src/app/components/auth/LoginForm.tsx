@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -5,78 +7,52 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form, FormControl, FormField,
+  FormItem, FormLabel, FormMessage
+} from '@/components/ui/form';
 import { Loader, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'E-mail inválido' }),
   password: z.string().min(6, { message: 'A senha precisa ter pelo menos 6 caracteres' }),
 });
-
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
   onToggle: () => void;
 }
 
-const LoginForm = ({ onToggle }: LoginFormProps) => {
+export default function LoginForm({ onToggle }: LoginFormProps) {
+  const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+    defaultValues: { email: '', password: '' },
   });
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    
     try {
-      // Simulate API call
-      await axios
-      .post('http://localhost:8080/ceremonialist/login', data)
-      .then((response) => {
-        // response: objeto completo retornado pelo Axios
-        console.log('Status HTTP:', response.status);        // e.g. 201
-        console.log('Headers:', response.headers);
-        console.log('Body da resposta:', response.data);     // o que o seu back enviou
-      })
-      .catch((error) => {
-        if (error.response) {
-          // Servidor respondeu com código de erro (4xx, 5xx)
-          console.error('Erro no servidor:', error.response.status, error.response.data);
-        } else if (error.request) {
-          // Pedido foi enviado mas não houve resposta
-          console.error('Nenhuma resposta recebida:', error.request);
-        } else {
-          // Algum outro erro aconteceu montando o pedido
-          console.error('Erro ao montar requisição:', error.message);
-        }
-      });
-
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log('Login data:', data);
+      const response = await axios.post('http://localhost:8080/ceremonialist/login', data);
+      sessionStorage.setItem("token",response.data)
       toast({
-        title: 'Login bem-sucedido',
-        description: 'Você será redirecionado para o dashboard.',
+        title: 'Login bem‑sucedido',
+        description: 'Você será redirecionado em breve.',
       });
-    } catch (error) {
-      toast({
-        title: 'Erro ao fazer login',
-        description: 'Verifique suas credenciais e tente novamente.',
-        variant: 'destructive',
-      });
+      router.push('/home');
+    } catch (error: any) {
+      const msg = error.response?.data?.message ?? 'Verifique suas credenciais e tente novamente.';
+      toast({ title: 'Erro ao fazer login', description: msg, variant: 'destructive' });
     } finally {
       setIsLoading(false);
     }
   };
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -173,4 +149,3 @@ const LoginForm = ({ onToggle }: LoginFormProps) => {
   );
 };
 
-export default LoginForm;

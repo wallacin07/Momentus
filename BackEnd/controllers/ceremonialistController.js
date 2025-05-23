@@ -8,8 +8,11 @@ class CeremonialistController{
     }
 
     async createCerimonialist(req,res){
+        
         //processar a request
+        console.log(req.body)
         const {name,email,password,CNPJ,birthDate,adress} = req.body;
+
         try{
             const newCeremonialist = await this.CeremonialistService.create(name,email,password,CNPJ,birthDate,adress);
             res.status(200).json(newCeremonialist);

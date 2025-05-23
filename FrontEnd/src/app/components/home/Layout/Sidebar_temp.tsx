@@ -7,7 +7,7 @@ import {
   FileText, 
   ShoppingBag, 
   Clock, 
-  FileCog, 
+  Handshake, 
   Warehouse,
   FileStack,
   UserCheck
@@ -73,6 +73,7 @@ export const Sidebar: FC = () => {
           to="/eventos" 
           badge={27}
         />
+
       </div>
       
       <div className="px-4 py-2 mt-2">
@@ -103,16 +104,6 @@ export const Sidebar: FC = () => {
           badge={3}
         />
         <SidebarItem 
-          icon={<ShoppingBag size={20} />} 
-          label="Ferramentas" 
-          to="/ferramentas"
-        />
-        <SidebarItem 
-          icon={<Users size={20} />} 
-          label="Minha carteira" 
-          to="/carteira"
-        />
-        <SidebarItem 
           icon={<FileText size={20} />} 
           label="Orçamentos" 
           to="/orcamentos"
@@ -135,7 +126,7 @@ export const Sidebar: FC = () => {
         <SidebarItem 
           icon={<UserCheck size={20} />} 
           label="Fornecedores" 
-          to="/fornecedores"
+          to="/supplier"
         />
       </div>
 
