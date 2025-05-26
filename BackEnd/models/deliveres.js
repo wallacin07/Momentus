@@ -27,10 +27,11 @@ module.exports= (sequelize) => {
     });
 
     Deliveres.associate = (models) => {
-        Deliveres.hasMany(models.Events, {
-            foreignKey: 'deliveresId',
+        Deliveres.belongsTo(models.Events, {
+            foreignKey: 'eventId',
             as: 'events'
         });
+        
         Deliveres.belongsTo(models.Suppliers, {
             foreignKey: 'supplierId',
             as: 'suppliers'

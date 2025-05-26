@@ -9,7 +9,7 @@ module.exports= (sequelize) => {
             primaryKey:true,
             allowNull:false
         },
-        Description:{
+        description:{
             type:Sequelize.STRING,
             allowNull:false
         },
@@ -31,10 +31,17 @@ module.exports= (sequelize) => {
             foreignKey: 'clientId',
             as: 'client'
         });
+
+        Events.hasMany(models.Deliveres, {
+            foreignKey: 'eventId',
+            as: 'deliveres'
+        });
+
         Events.belongsTo(models.Ceremonialist, {
             foreignKey: 'ceremonialistId',
             as: 'ceremonialist'
         });
+
         Events.hasMany(models.Task, {
             foreignKey: 'eventId',
             as: 'tasks'
