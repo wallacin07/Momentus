@@ -71,7 +71,7 @@ export const Sidebar: FC = () => {
         <SidebarItem 
           icon={<Clock size={20} />} 
           label="Eventos" 
-          to="/eventos" 
+          to="/event" 
           badge={27}
         />
 
