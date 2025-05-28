@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { X, Calendar, Check } from 'lucide-react';
+import { Description } from '@radix-ui/react-dialog';
+import axios from 'axios';
 
 interface SupplierFormProps {
   onClose: () => void;
@@ -12,7 +14,7 @@ const SupplierForm: React.FC<SupplierFormProps> = ({ onClose, onSave }) => {
     phone: '',
     email: '',
     adress: '',
-    category: '',
+    description: '',
     cnpj: ''
   });
 
@@ -21,8 +23,17 @@ const SupplierForm: React.FC<SupplierFormProps> = ({ onClose, onSave }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+      const response = await axios.post("http://localhost:8080/supplier", {
+      "name": formData.Name,
+      "email": formData.email,
+      "number": formData.phone,
+      "adress":formData.adress,
+      "description": formData.description,
+      "CNPJ": formData.cnpj,
+    })
+    console.log(response.data)
     onSave(formData);
   };
 
@@ -97,6 +108,21 @@ const SupplierForm: React.FC<SupplierFormProps> = ({ onClose, onSave }) => {
               />
             </div>
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Descrição
+            </label>
+            <div className="flex">
+              <input
+                type="text"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+          </div>
           
           
           <div>
@@ -106,7 +132,7 @@ const SupplierForm: React.FC<SupplierFormProps> = ({ onClose, onSave }) => {
             <div className="flex">
               <input
                 type="text"
-                name="CNPJ"
+                name="cnpj"
                 value={formData.cnpj}
                 onChange={handleChange}
                 placeholder="00.000.000/0000-01"

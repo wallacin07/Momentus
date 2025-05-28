@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, Calendar, Check } from 'lucide-react';
+import axios from 'axios';
 
 interface ClientFormProps {
   onClose: () => void;
@@ -12,13 +13,13 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    password:'',
     phone: '',
-    status: 'Sem status',
     email: '',
     birthDate: '',
-    instagram: '',
-    eventDate: '',
-    value: ''
+    adress: '',
+    cpf: '',
+
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -26,8 +27,18 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const response = await axios.post("http://localhost:8080/client", {
+      "name": formData.firstName + " " + formData.lastName,
+      "email": formData.email,
+      "password": formData.password,
+      "CPF": formData.cpf,
+      "birthDate": formData.birthDate,
+      "adress":formData.adress,
+      "number": formData.phone
+    })
+    console.log(response.data)
     onSave(formData);
   };
 
@@ -69,6 +80,21 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
               className="w-full border border-gray-300 rounded-md px-3 py-2"
             />
           </div>
+
+           <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Senha
+            </label>
+            <div className="flex">
+              <input
+                type="text"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-r-md px-3 py-2"
+              />
+            </div>
+          </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Telefone para contato</label>
@@ -87,24 +113,10 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
             </div>
           </div>
           
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
-            >
-              <option value="Sem status">Sem status</option>
-              <option value="Lead">Lead</option>
-              <option value="Negociação">Negociação</option>
-              <option value="Fechado">Fechado</option>
-            </select>
-          </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              E-mail para contato <span className="text-gray-400 text-xs">(Opcional)</span>
+              E-mail para contato
             </label>
             <input
               type="email"
@@ -117,7 +129,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Data de nascimento <span className="text-gray-400 text-xs">(Opcional)</span>
+              Data de nascimento
             </label>
             <div className="relative">
               <input
@@ -133,19 +145,17 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
               </div>
             </div>
           </div>
-          
+
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Instagram <span className="text-gray-400 text-xs">(Opcional)</span>
+              Endereço
             </label>
             <div className="flex">
-              <div className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                @
-              </div>
               <input
                 type="text"
-                name="instagram"
-                value={formData.instagram}
+                name="adress"
+                value={formData.adress}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-r-md px-3 py-2"
               />
@@ -154,37 +164,15 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Data do evento <span className="text-gray-400 text-xs">(Opcional)</span>
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                name="eventDate"
-                value={formData.eventDate}
-                onChange={handleChange}
-                placeholder="Se preferir, digite a data"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10"
-              />
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <Calendar className="h-5 w-5 text-gray-400" />
-              </div>
-            </div>
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Valor <span className="text-gray-400 text-xs">(Opcional)</span>
+              CPF
             </label>
             <div className="flex">
-              <div className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                R$
-              </div>
               <input
                 type="text"
-                name="value"
-                value={formData.value}
+                name="cpf"
+                placeholder='123.456.789-00'
+                value={formData.cpf}
                 onChange={handleChange}
-                placeholder="0,00"
                 className="w-full border border-gray-300 rounded-r-md px-3 py-2"
               />
             </div>
@@ -193,7 +181,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
         
         <button
           type="submit"
-          className="w-full flex items-center justify-center gap-2 bg-soft-black text-black py-3 rounded-md hover:bg-gray-100"
+          className="w-full flex items-center justify-center gap-2 bg-soft-black text-black py-3 rounded-xl border-2 hover:bg-gray-100"
         >
           Salvar <Check className="w-5 h-5" />
         </button>

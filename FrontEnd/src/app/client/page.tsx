@@ -12,6 +12,7 @@ import ClientList from '../components/client/ClientList';
 import { AppLayout } from '../components/home/Layout/AppLayout';
 import ClientSearch from '../components/client/ClientSearch';
 import ClientListHeader from '../components/client/ClientListHeader';
+import axios from 'axios';
 
 const Clients: React.FC = () => {
   const [showAlert, setShowAlert] = useState(true);
@@ -31,29 +32,9 @@ const Clients: React.FC = () => {
   };
 
   const handleSaveClient = (formData: any) => {
-    const categories = [];
-    
-    if (formData.category === 'food') {
-      categories.push({ name: 'Alimentação', icon: '🍽️' });
-    } else if (formData.category === 'drinks') {
-      categories.push({ name: 'Bebidas', icon: '🍸' });
-    } else if (formData.category === 'decoration') {
-      categories.push({ name: 'Decoração', icon: '🎭' });
-    }
-    
-    const newClient = {
-      id: Date.now(),
-      firstName: formData.firstName,
-      lastName: formData.lastName || '',
-      email: formData.email || '',
-      phone: formData.phone || '',
-      location: formData.location || '',
-      categories: categories
-    };
-    
-    setClients([...clients, newClient]);
+  
+
     setShowForm(false);
-    
     toast({
       title: "Fornecedor adicionado",
       description: `${formData.firstName} foi adicionado com sucesso.`,
