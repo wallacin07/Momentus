@@ -9,7 +9,7 @@ interface ClientListHeaderProps {
 
 const ClientListHeader: React.FC<ClientListHeaderProps> = ({ onAddClick }) => {
   return (
-    <div className="flex justify-between items-center mb-6 hover:bg-gray-50 p-6 rounded-md" onClick={onAddClick}>
+    <div className="flex justify-between items-center mb-6 hover:bg-gray-200 p-6 rounded-md" onClick={onAddClick}>
       <div className="flex items-center gap-2 text-gray-600">
         <Plus className="h-5 w-5" />
         <span>Novo cliente</span>
