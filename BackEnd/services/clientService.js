@@ -50,13 +50,15 @@ module.exports = class ClientService {
         return token;
     }
 
-    async searchByName(name) {
+    async searchByName(name, limit = 10, offset = 0) {
         const currClient = await this.Client.findAll({
             where: {
                 name: {
                     [db.Sequelize.Op.like]: `%${name}%`
                 }
-            }
+            },
+            limit: limit,
+            offset: offset
         });
         return currClient;
     }
