@@ -10,7 +10,7 @@ const ClientController = require('../controllers/clientController');
 const clientService = new ClientService(db.Client);
 const clientController = new ClientController(clientService);
 
-router.post('', async (req,res)=>{
+router.post('',auth.verifyToken, async (req,res)=>{
     clientController.createClient(req,res);
 });
 

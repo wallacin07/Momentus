@@ -40,6 +40,10 @@ module.exports= (sequelize) => {
             foreignKey: 'ceremonialistId',
             as: 'events'
         });
+        Ceremonialist.hasMany(models.Client, {
+            foreignKey: 'ceremonialistId',
+            as: 'clients'
+        });
     };
 
     return Ceremonialist;

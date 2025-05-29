@@ -9,7 +9,8 @@ module.exports = class ClientController {
     async createClient(req, res) {
         try {
             const { name, email, password, CPF, birthDate, adress, number } = req.body;
-            const newClient = await this.ClientService.create(name, email, password, CPF, birthDate, adress, number);
+            const ceremonialistId = req.user.id;
+            const newClient = await this.ClientService.create(name, email, password, CPF, birthDate, adress, number, ceremonialistId);
             newClient.dataValues.password = '';
             res.status(200).json(newClient);
         }
@@ -66,6 +67,17 @@ module.exports = class ClientController {
         } catch (error) {
             console.log(error);
             res.status(500).json({ error: "Erro ao verificar o token!!" });
+        }
+    }
+
+    async searchByName(req, res) {
+        const name = req.body.name;
+        try {
+            const users = await this.ClientService.searchByName(name);
+            res.status(200).json(users);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: "Erro ao buscar clientes!!" });
         }
     }
 }
