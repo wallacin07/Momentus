@@ -2,29 +2,16 @@ import React from 'react';
 import { Avatar, AvatarFallback } from "../../baseComponents/avatar";
 import { ChevronRight } from 'lucide-react';
 import { Badge } from '../../baseComponents/badge';
+import { Client } from '@/app/client/page';
 
-interface Category {
-  name: string;
-  icon: string;
-}
-
-export interface ClientData {
-  id: number;
-  firstName: string;
-  lastName?: string;
-  phone?: string;
-  email?: string;
-  location?: string;
-  categories?: Category[];
-}
 
 interface ClientItemProps {
-  client: ClientData;
-  onClick: (client: ClientData) => void;
+  client: Client;
+  onClick: (client: Client) => void;
 }
 
 const ClientItem: React.FC<ClientItemProps> = ({ client, onClick }) => {
-  const firstLetter = client.firstName.charAt(0).toUpperCase();
+  const firstLetter = client.name.charAt(0).toUpperCase();
   
   return (
     <div 
@@ -37,23 +24,12 @@ const ClientItem: React.FC<ClientItemProps> = ({ client, onClick }) => {
       <div className="flex-1 space-y-1">
         <div className="flex justify-between">
           <h3 className="font-medium">
-            {client.firstName} {client.lastName} 
+            {client.name} {client.name} 
             <span className="text-gray-400 ml-1">(você)</span>
           </h3>
           <div className="flex items-center gap-2">
             <ChevronRight className="h-5 w-5 text-gray-400" />
           </div>
-        </div>
-        <div className="flex gap-2">
-          {client.categories && client.categories.map((category, index) => (
-            <Badge 
-              key={index} 
-              className="bg-black text-white px-2 py-1 rounded text-xs"
-              variant="outline"
-            >
-              {category.icon} {category.name}
-            </Badge>
-          ))}
         </div>
       </div>
     </div>

@@ -1,77 +1,72 @@
-"use client"
-import React, { useState } from 'react';
+// src/app/event/page.tsx
+"use client";
+import React, { useEffect, useState } from 'react';
 import Navigation from '../components/event/Navigation';
 import SearchBar from '../components/event/SearchBar';
 import AddEventCard from '../components/event/AddEventCard';
 import EventCard from '../components/event/EventCard';
-import EventForm from '../components/event/EventForm';  // importe seu formulário
+import EventForm from '../components/event/EventForm';
 import { AppLayout } from '../components/home/Layout/AppLayout';
+import axios from 'axios';
+import { Client, Event, ClientEventData } from '../types/types';
 
 const Index: React.FC = () => {
-  // estado para controle do modal de criar evento
   const [showForm, setShowForm] = useState(false);
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "evigew & minharola",
-      date: "10/10/00",
-      location: "0 / 0",
-      status: "Evento concluído",
-      isMarried: true
-    }
-  ]);
+  const [clientsData, setClientsData] = useState<ClientEventData[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
 
-  // abre o form
-  const handleAddEvent = () => {
-    setShowForm(true);
-  };
-  // fecha o form
-  const handleCloseForm = () => {
-    setShowForm(false);
-  };
-  // salva novo evento (só exemplo simples)
-  const handleSaveEvent = (formData: any) => {
-    const newEvent = {
-      id: Date.now(),
-      title: formData.client,      // adapte conforme seu EventForm
-      date: formData.eventDate,
-      location: formData.eventLocation,
-      status: "Rascunho",
-      isMarried: formData.eventType === "Casamento"
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [clientsRes, eventsRes] = await Promise.all([
+          axios.get<Client[]>('http://localhost:8080/client'),
+          axios.get<Event[]>('http://localhost:8080/event'),
+        ]);
+
+        // mapeia apenas id e name
+        setClientsData(
+          clientsRes.data.map(c => ({ id: c.id, name: c.name }))
+        );
+        setEvents(eventsRes.data);
+      } catch (err) {
+        console.error('Erro ao buscar dados:', err);
+      }
     };
-    setEvents([...events, newEvent]);
-    setShowForm(false);
-  };
+
+    fetchData();
+  }, []);
+
+  const handleAddEvent = () => setShowForm(true);
+  const handleCloseForm = () => setShowForm(false);
+  const handleSaveEvent = () => setShowForm(false);
 
   return (
     <AppLayout>
-      <div className="min-h-screen ">
+      <div className="min-h-screen">
         <Navigation />
-
         <div className="max-w-6xl mx-auto p-6">
           <SearchBar />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {/* passa a ação de abrir o form */}
             <AddEventCard onClick={handleAddEvent} />
-
-            {events.map(event => (
+            {events.map(evt => (
               <EventCard
-                key={event.id}
-                title={event.title}
-                date={event.date}
-                location={event.location}
-                status={event.status}
-                isMarried={event.isMarried}
+                key={evt.id}
+                name={evt.name}
+                date={evt.date}
+                client={evt.client}
+                status={evt.status}
+                description={evt.description}
               />
             ))}
           </div>
 
-          {/* renderiza o form quando showForm for true */}
           {showForm && (
             <EventForm
               onClose={handleCloseForm}
-              onSave={handleSaveEvent} clients={[]}            />
+              onSave={handleSaveEvent}
+              clients={clientsData}
+            />
           )}
         </div>
       </div>

@@ -1,22 +1,23 @@
 import React from 'react';
 import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet';
 import { X, Upload } from 'lucide-react';
-import { ClientData } from './ClientItem';
+
 import { Input } from '../../baseComponents/input';
 import { Button } from '../../baseComponents/button';
 import { Label } from '../../baseComponents/label';
 import { Badge } from '../../baseComponents/badge';
 import { Pencil } from 'lucide-react';
+import { Client } from '@/app/client/page';
 
 interface ClientEditFormProps {
   isOpen: boolean;
   onClose: () => void;
-  client: ClientData | null;
-  onSave: (client: ClientData) => void;
+  client: Client | null;
+  onSave: (client: Client) => void;
 }
 
 const ClientEditForm: React.FC<ClientEditFormProps> = ({ isOpen, onClose, client, onSave }) => {
-  const [formData, setFormData] = React.useState<ClientData | null>(client);
+  const [formData, setFormData] = React.useState<Client | null>(client);
 
   React.useEffect(() => {
     setFormData(client);
@@ -39,6 +40,29 @@ const ClientEditForm: React.FC<ClientEditFormProps> = ({ isOpen, onClose, client
   };
 
   if (!formData) return null;
+
+function formatCPF(value: string) {
+  const cleaned = value.replace(/\D/g, "");
+
+  const formatted = cleaned
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
+
+  return formatted;
+}
+
+
+
+function formatISOToBR(isoString: string | number | Date) {
+  const date = new Date(isoString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -68,7 +92,7 @@ const ClientEditForm: React.FC<ClientEditFormProps> = ({ isOpen, onClose, client
               <Input 
                 id="businessName" 
                 name="firstName" 
-                value={formData.firstName} 
+                value={formData.name} 
                 onChange={handleChange}
                 className="mt-1"
               />
@@ -81,7 +105,7 @@ const ClientEditForm: React.FC<ClientEditFormProps> = ({ isOpen, onClose, client
                 <Input 
                   id="phone" 
                   name="phone" 
-                  value={formData.phone || ''} 
+                  value={formData.number || ''} 
                   onChange={handleChange}
                   className="flex-1"
                   placeholder="(41) 98877-8886"
@@ -102,68 +126,39 @@ const ClientEditForm: React.FC<ClientEditFormProps> = ({ isOpen, onClose, client
             </div>
 
             <div>
-              <Label htmlFor="slug">Slug do negócio</Label>
+              <Label htmlFor="adress">Endereço</Label>
               <Input 
-                id="slug" 
-                name="slug" 
-                value={formData.lastName || ''} 
+                id="adress" 
+                name="adress" 
+                type="text"
+                value={formData.adress || ''} 
                 onChange={handleChange}
                 className="mt-1"
-                placeholder="seu-negocio"
               />
-              <p className="text-xs text-gray-500 mt-1">
-                Para enviar seu link. Por exemplo: https://pro.wedy.com/share/wedy-biz
-              </p>
             </div>
 
             <div>
-              <Label>Categorias de serviço</Label>
-              <div className="flex mt-2 gap-2 border rounded-md p-3 justify-between">
-                <div className="flex gap-2">
-                  <Badge className="bg-black text-white">🍽️ Alimentação</Badge>
-                  <Badge className="bg-black text-white">🍸 Bebidas</Badge>
-                  <Badge className="bg-black text-white">🎭 Decoração</Badge>
-                </div>
-                <Button size="icon" variant="ghost" className="h-6 w-6">
-                  <Pencil className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="instagram" className="flex justify-between">
-                <span>Instagram</span>
-                <span className="text-gray-400 text-xs">Opcional</span>
-              </Label>
-              <div className="relative mt-1">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <span className="text-gray-500">@</span>
-                </div>
-                <Input 
-                  id="instagram" 
-                  name="instagram" 
-                  className="pl-8"
-                />
-              </div>
+              <Label htmlFor="birthDate">Data de Nascimento</Label>
+              <Input 
+                id="birthDate" 
+                name="birthDate" 
+                type="data"
+                value={formatISOToBR(formData.birthDate) || ''} 
+                onChange={handleChange}
+                className="mt-1"
+              />
             </div>
 
             <div>
               <Label htmlFor="document" className="flex justify-between">
                 <span>Número do documento</span>
-                <span className="text-gray-400 text-xs">Opcional</span>
               </Label>
               <Input 
                 id="document" 
                 name="document" 
                 className="mt-1"
+                value={formatCPF(formData.CPF)}
               />
-            </div>
-
-            <div className="bg-gray-50 p-4 rounded-md flex items-center gap-2">
-              <span className="text-gray-600 text-sm">Procurando pelas</span>
-              <Button variant="link" className="p-0 h-auto text-blue-600 text-sm">
-                configurações da carteira?
-              </Button>
             </div>
           </div>
 

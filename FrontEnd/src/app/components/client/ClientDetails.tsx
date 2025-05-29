@@ -3,20 +3,21 @@ import { Sheet, SheetContent, SheetHeader } from '../../baseComponents/sheet';
 import { Avatar, AvatarFallback } from '../../baseComponents/avatar';
 import { Badge } from '../../baseComponents/badge';
 import { X, Pencil, Phone, Mail, MapPin, Instagram, Copy } from 'lucide-react';
-import { ClientData } from './ClientItem';
+
 import { Button } from '../../baseComponents/button';
+import { Client } from '@/app/client/page';
 
 interface ClientDetailsProps {
   isOpen: boolean;
   onClose: () => void;
-  client: ClientData | null;
-  onEdit: (client: ClientData) => void;
+  client: Client | null;
+  onEdit: (client: Client) => void;
 }
 
 const ClientDetails: React.FC<ClientDetailsProps> = ({ isOpen, onClose, client, onEdit }) => {
   if (!client) return null;
 
-  const firstLetter = client.firstName.charAt(0).toUpperCase();
+  const firstLetter = client.name.charAt(0).toUpperCase();
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -24,7 +25,7 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ isOpen, onClose, client, 
         <SheetHeader className="flex flex-row items-center justify-between p-4 border-b">
           <div className="flex items-center gap-2">
             <X className="w-5 h-5 cursor-pointer" onClick={onClose} />
-            <h2 className="text-xl font-medium">Perfil do fornecedor</h2>
+            <h2 className="text-xl font-medium">Perfil do Cliente</h2>
           </div>
         </SheetHeader>
 
@@ -36,20 +37,10 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ isOpen, onClose, client, 
               </Avatar>
               <div>
                 <h3 className="text-xl font-medium">
-                  {client.firstName} {client.lastName}
+                  {client.name}
                   <span className="text-gray-400 text-sm ml-1">(você)</span>
                 </h3>
-                <div className="flex gap-2 mt-1">
-                  {client.categories && client.categories.map((category, index) => (
-                    <Badge 
-                      key={index} 
-                      className="bg-black text-white px-2 py-1 rounded text-xs"
-                      variant="outline"
-                    >
-                      {category.icon} {category.name}
-                    </Badge>
-                  ))}
-                </div>
+                
               </div>
             </div>
             <Button 
@@ -62,11 +53,11 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ isOpen, onClose, client, 
             </Button>
           </div>
 
-          {client.phone && (
+          {client.number && (
             <div className="flex items-center justify-between py-4 border-b">
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-gray-500" />
-                <span>{client.phone}</span>
+                <span>{client.number}</span>
               </div>
               <Button variant="ghost" size="icon">
                 <Copy className="h-5 w-5" />
@@ -86,21 +77,14 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ isOpen, onClose, client, 
             </div>
           )}
 
-          {client.location && (
+          {client.adress && (
             <div className="flex items-center justify-between py-4 border-b">
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-gray-500" />
-                <span>{client.location}</span>
+                <span>{client.adress}</span>
               </div>
             </div>
           )}
-
-          <div className="flex items-center justify-between py-4 border-b">
-            <div className="flex items-center gap-3">
-              <Instagram className="h-5 w-5 text-gray-500" />
-              <span className="text-gray-400">-</span>
-            </div>
-          </div>
         </div>
       </SheetContent>
     </Sheet>

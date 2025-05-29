@@ -1,19 +1,21 @@
-"use client"
-
+// src/components/event/EventForm.tsx
+"use client";
 import React, { useState } from 'react';
 import { X, Calendar, Heart, Plus } from 'lucide-react';
+import axios from 'axios';
+import { ClientEventData } from '../../types/types';
 
 interface EventFormProps {
   onClose: () => void;
-  onSave: (formData: any) => void;
-  clients: { id: string; name: string }[];
+  onSave: () => void;
+  clients: ClientEventData[];
 }
 
 const EventForm: React.FC<EventFormProps> = ({ onClose, onSave, clients }) => {
+  console.log(clients)
   const [formData, setFormData] = useState({
     eventType: 'Casamento',
     client: '',
-    partner: '',
     eventDate: '',
     eventLocation: '',
     budget: '0,00',
@@ -24,9 +26,17 @@ const EventForm: React.FC<EventFormProps> = ({ onClose, onSave, clients }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    await axios.post('http://localhost:8080/event', {
+      description: formData.eventType,
+      name: `${formData.eventType} - ${formData.client}`,
+      date: formData.eventDate,
+      status: formData.eventType,
+      clientId: Number(formData.client),
+      ceremonialistId: 1,
+    });
+    onSave();
   };
 
   return (
@@ -42,8 +52,8 @@ const EventForm: React.FC<EventFormProps> = ({ onClose, onSave, clients }) => {
       {/* Info banner */}
       <div className="p-4 bg-gray-50 text-gray-600 text-sm border-b">
         <p>
-          Vamos utilizar as informações para criar o Site do evento que ficará em
-          <span className="font-medium"> modo rascunho </span>até o cliente finalizar o cadastro na Wedy.
+          Vamos utilizar essas informações para criar o site do evento em{' '}
+          <span className="font-medium">modo rascunho</span> até o cliente finalizar o cadastro na Wedy.
         </p>
       </div>
 
@@ -77,49 +87,31 @@ const EventForm: React.FC<EventFormProps> = ({ onClose, onSave, clients }) => {
               name="client"
               value={formData.client}
               onChange={handleChange}
-              className="flex-1 border-2 border-dashed border-gray-300 rounded-md px-3 py-2 bg-white text-gray-400 appearance-none"
+              className="flex-1 border-2 border-dashed border-gray-300 rounded-md px-3 py-2 bg-white appearance-none"
             >
-              <option value="">{formData.client ? '' : 'Adicione um cliente'}</option>
+              <option value="">Adicione um cliente</option>
               {clients.map(c => (
-                <option key={c.id} value={c.id} className="text-black">
+                <option key={c.id} value={c.id}>
                   {c.name}
                 </option>
               ))}
             </select>
-            <button
-              type="button"
-              onClick={() => {/* abre modal de novo cliente */}}
-              className="ml-2 inline-flex items-center justify-center w-10 h-10 rounded-md border border-gray-300 bg-white hover:bg-gray-50"
-            >
+            <button type="button" className="ml-2 w-10 h-10 rounded-md border bg-white hover:bg-gray-50">
               <Plus className="w-5 h-5 text-gray-500" />
             </button>
           </div>
         </div>
 
-        {/* Companheiro(a) */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Companheiro(a) do(a) cliente</label>
-          <input
-            type="text"
-            name="partner"
-            value={formData.partner}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
-          />
-        </div>
-
         {/* Data do evento */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Data do evento <span className="text-gray-400 text-xs">(Opcional)</span>
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Data do evento</label>
           <div className="relative">
             <input
               type="text"
               name="eventDate"
               value={formData.eventDate}
               onChange={handleChange}
-              placeholder="Se preferir, digite a data"
+              placeholder="dd/mm/yyyy"
               className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -128,45 +120,7 @@ const EventForm: React.FC<EventFormProps> = ({ onClose, onSave, clients }) => {
           </div>
         </div>
 
-        {/* Local do evento */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Local do evento <span className="text-gray-400 text-xs">(Opcional)</span>
-          </label>
-          <input
-            type="text"
-            name="eventLocation"
-            value={formData.eventLocation}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
-          />
-        </div>
-
-        {/* Teto de gastos */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Teto de gastos do evento <span className="text-gray-400 text-xs">(Opcional)</span>
-          </label>
-          <div className="flex">
-            <span className="inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md text-gray-600">
-              R$
-            </span>
-            <input
-              type="text"
-              name="budget"
-              value={formData.budget}
-              onChange={handleChange}
-              placeholder="0,00"
-              className="w-full border border-gray-300 rounded-r-md px-3 py-2"
-            />
-          </div>
-        </div>
-
-        {/* Botão Continuar */}
-        <button
-          type="submit"
-          className="w-full flex items-center justify-center gap-2 bg-black text-white py-3 rounded-md hover:bg-gray-800"
-        >
+        <button type="submit" className="w-full bg-black text-white py-3 rounded-md">
           Continuar →
         </button>
       </form>

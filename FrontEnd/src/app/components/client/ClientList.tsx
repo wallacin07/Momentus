@@ -1,11 +1,12 @@
 import React from 'react';
 import ClientListHeader from './ClientListHeader';
 import ClientSearch from './ClientSearch';
-import ClientItem, { ClientData } from './ClientItem';
+import ClientItem from './ClientItem';
+import { Client } from '@/app/client/page';
 
 interface ClientListHeaderProps {
-  clients: ClientData[];
-  onClientClick: (client: ClientData) => void;
+  clients: Client[];
+  onClientClick: (client: Client) => void;
 }
 
 const ClientList: React.FC<ClientListHeaderProps> = ({clients, onClientClick}) => {

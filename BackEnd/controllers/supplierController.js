@@ -9,6 +9,7 @@ module.exports = class SupplierController {
     async createSupplier(req, res) {
         try {
             const { name, email, number, adress, description, CNPJ } = req.body;
+            console.log(adress)
             const newSupplier = await this.supplierService.create(name, email, number, adress, description, CNPJ);
             res.status(200).json(newSupplier);
         } catch (error) {

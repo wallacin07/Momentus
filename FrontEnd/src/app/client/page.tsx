@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ClientHeader from '../components/client/ClientHeader';
 import ClientAlert from '../components/client/ClientAlert';
 
@@ -7,25 +7,50 @@ import ClientForm from '../components/client/ClientForm';
 import ClientDetails from '../components/client/ClientDetails';
 import ClientEditForm from '../components/client/ClientEditForm';
 import { useToast } from '@/hooks/use-toast';
-import { ClientData } from '../components/client/ClientItem';
 import ClientList from '../components/client/ClientList';
 import { AppLayout } from '../components/home/Layout/AppLayout';
 import ClientSearch from '../components/client/ClientSearch';
 import ClientListHeader from '../components/client/ClientListHeader';
 import axios from 'axios';
 
+export interface Client {
+  id: number;
+  name: string;
+  number: string;
+  email: string;
+  adress: string;
+  CPF: string;
+  birthDate: string
+
+}
+
 const Clients: React.FC = () => {
   const [showAlert, setShowAlert] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [clients, setClients] = useState<ClientData[]>([]);
-  const [selectedClient, setSelectedClient] = useState<ClientData | null>(null);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const { toast } = useToast();
 
   const handleAddClient = () => {
     setShowForm(true);
   };
+
+  useEffect(() => {
+  const fetchClients = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/client");
+      setClients(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar os clientes:", error);
+    }
+  };
+
+  fetchClients();
+    
+    
+  }, [clients])
 
   const handleCloseForm = () => {
     setShowForm(false);
@@ -41,16 +66,16 @@ const Clients: React.FC = () => {
     });
   };
 
-  const handleClientClick = (client: ClientData) => {
+  const handleClientClick = (client: Client) => {
     setSelectedClient(client);
     setShowDetails(true);
   };
 
-  const handleEditClick = (client: ClientData) => {
+  const handleEditClick = (client: Client) => {
     setShowEdit(true);
   };
 
-  const handleSaveEdit = (editedClient: ClientData) => {
+  const handleSaveEdit = (editedClient: Client) => {
     const updatedClients = clients.map(client => 
       client.id === editedClient.id ? editedClient : client
     );
@@ -60,7 +85,7 @@ const Clients: React.FC = () => {
     
     toast({
       title: "cliente atualizado",
-      description: `${editedClient.firstName} foi atualizado com sucesso.`,
+      description: `${editedClient.name} foi atualizado com sucesso.`,
     });
   };
 
