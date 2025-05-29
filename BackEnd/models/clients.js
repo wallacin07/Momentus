@@ -44,6 +44,11 @@ module.exports= (sequelize) => {
             foreignKey: 'clientId',
             as: 'events'
         });
+
+        Client.belongsTo(models.Ceremonialist, {
+            foreignKey: 'ceremonialistId',
+            as: 'ceremonialist'
+        });
     }
 
     return Client;
