@@ -76,7 +76,7 @@ module.exports = class ClientController {
             res.status(200).json(users);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ error: "Erro ao buscar usuários!!" });
+            res.status(500).json({ error: "Erro ao buscar clientes!!" });
         }
     }
 }
