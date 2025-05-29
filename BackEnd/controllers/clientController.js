@@ -68,4 +68,15 @@ module.exports = class ClientController {
             res.status(500).json({ error: "Erro ao verificar o token!!" });
         }
     }
+
+    async searchByName(req, res) {
+        const name = req.body.name;
+        try {
+            const users = await this.ClientService.searchByName(name);
+            res.status(200).json(users);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: "Erro ao buscar usuários!!" });
+        }
+    }
 }

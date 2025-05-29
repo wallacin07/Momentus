@@ -49,4 +49,15 @@ module.exports = class ClientService {
         }
         return token;
     }
+
+    async searchByName(name) {
+        const currClient = await this.Client.findAll({
+            where: {
+                name: {
+                    [db.Sequelize.Op.like]: `%${name}%`
+                }
+            }
+        });
+        return currClient;
+    }
 }
