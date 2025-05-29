@@ -24,7 +24,7 @@ module.exports = class ClientService {
 
     async findAll() {
         const allClient = await this.Client.findAll({
-            attributes: ['id', 'name', 'email', 'CPF', 'birthDate', 'adress'],
+            attributes: ['id', 'name', 'email', 'CPF', 'birthDate', 'adress','number', 'ceremonialistId'],
         });
         return allClient;
     }
