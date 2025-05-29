@@ -1,4 +1,3 @@
-const ceremonialist = require("../models/ceremonialist");
 const Client = require("../models/clients");
 const ClientService = require("../services/clientService");
 
