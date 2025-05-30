@@ -32,7 +32,11 @@ const SupplierForm: React.FC<SupplierFormProps> = ({ onClose, onSave }) => {
       "adress":formData.adress,
       "description": formData.description,
       "CNPJ": formData.cnpj,
-    })
+    }, 
+  {
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    }})
     console.log(response.data)
     onSave(formData);
   };

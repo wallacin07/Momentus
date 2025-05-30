@@ -55,6 +55,10 @@ const Clients: React.FC = () => {
     
   }, [])
 
+    useEffect(() => {
+    
+  }, [clients])
+
   const handleCloseForm = () => {
     setShowForm(false);
   };

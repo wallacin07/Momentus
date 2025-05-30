@@ -10,12 +10,12 @@ interface Category {
 
 export interface SupplierData {
   id: number;
-  Name: string;
-  adress?: string;
-  phone?: string;
-  email?: string;
-  cnpj?: string;
-  categories?: Category[];
+  name: string;
+  email: string;
+  number: string;
+  adress: string;
+  description: string;
+  CNPJ: string;
 }
 
 interface SupplierItemProps {
@@ -24,7 +24,7 @@ interface SupplierItemProps {
 }
 
 const SupplierItem: React.FC<SupplierItemProps> = ({ supplier, onClick }) => {
-  const firstLetter = supplier.Name.charAt(0).toUpperCase();
+  const firstLetter = supplier.name.charAt(0).toUpperCase();
   
   return (
     <div 
@@ -37,14 +37,14 @@ const SupplierItem: React.FC<SupplierItemProps> = ({ supplier, onClick }) => {
       <div className="flex-1 space-y-1">
         <div className="flex justify-between">
           <h3 className="font-medium">
-            {supplier.Name} 
+            {supplier.name} 
             <span className="text-gray-400 ml-1">(você)</span>
           </h3>
           <div className="flex items-center gap-2">
             <ChevronRight className="h-5 w-5 text-gray-400" />
           </div>
         </div>
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           {supplier.categories && supplier.categories.map((category, index) => (
             <Badge 
               key={index} 
@@ -54,7 +54,7 @@ const SupplierItem: React.FC<SupplierItemProps> = ({ supplier, onClick }) => {
               {category.icon} {category.name}
             </Badge>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

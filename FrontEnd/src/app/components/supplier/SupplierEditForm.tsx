@@ -7,6 +7,7 @@ import { Label } from '../../baseComponents/label';
 import { Badge } from '../../baseComponents/badge';
 import { Pencil } from 'lucide-react';
 import { SupplierData } from './SupplierItem';
+import axios from 'axios';
 
 interface SupplierEditFormProps {
   isOpen: boolean;
@@ -31,9 +32,22 @@ const SupplierEditForm: React.FC<SupplierEditFormProps> = ({ isOpen, onClose, su
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (formData) {
-      onSave(formData);
+         const response = await axios.post(`http://localhost:8080/supplier/update`, {
+      "id": supplier?.id,
+      "name": formData.name,
+      "email": formData.email,
+      "number": formData.number,
+      "adress":formData.adress,
+      "description": formData.description,
+      "CNPJ": formData.CNPJ,
+    }, 
+  {
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    }})
+    console.log(response.data)
       onClose();
     }
   };
@@ -64,11 +78,11 @@ const SupplierEditForm: React.FC<SupplierEditFormProps> = ({ isOpen, onClose, su
           
           <div className="space-y-4">
             <div>
-              <Label htmlFor="businessName">Nome do negócio</Label>
+              <Label htmlFor="businessName">Nome do fornecedor</Label>
               <Input 
                 id="businessName" 
                 name="firstName" 
-                value={formData.Name} 
+                value={formData.name} 
                 onChange={handleChange}
                 className="mt-1"
               />
@@ -81,7 +95,7 @@ const SupplierEditForm: React.FC<SupplierEditFormProps> = ({ isOpen, onClose, su
                 <Input 
                   id="phone" 
                   name="phone" 
-                  value={formData.phone || ''} 
+                  value={formData.number || ''} 
                   onChange={handleChange}
                   className="flex-1"
                   placeholder="(41) 98877-8886"
@@ -101,7 +115,32 @@ const SupplierEditForm: React.FC<SupplierEditFormProps> = ({ isOpen, onClose, su
               />
             </div>
 
+
             <div>
+              <Label htmlFor="CNPJ">CNPJ </Label>
+              <Input 
+                id="CNPJ" 
+                name="CNPJ" 
+                type="text"
+                value={formData.CNPJ || ''} 
+                onChange={handleChange}
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="adress">Endereço </Label>
+              <Input 
+                id="adress" 
+                name="adress" 
+                type="text"
+                value={formData.adress || ''} 
+                onChange={handleChange}
+                className="mt-1"
+              />
+            </div>
+
+            {/* <div>
               <Label>Categorias de serviço</Label>
               <div className="flex mt-2 gap-2 border rounded-md p-3 justify-between">
                 <div className="flex gap-2">
@@ -113,7 +152,7 @@ const SupplierEditForm: React.FC<SupplierEditFormProps> = ({ isOpen, onClose, su
                   <Pencil className="h-4 w-4" />
                 </Button>
               </div>
-            </div>
+            </div> */}
 
 
           </div>

@@ -34,6 +34,7 @@ const ClientEditForm: React.FC<ClientEditFormProps> = ({ isOpen, onClose, client
 
   const handleSubmit = () => {
     if (formData) {
+      console.log(formData)
       onSave(formData);
       onClose();
     }

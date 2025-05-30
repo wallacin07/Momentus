@@ -16,6 +16,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Loader, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios'
 
+import { useRouter } from 'next/navigation';
+
+
 // 1) Schema Zod: espera um string ISO-date, transforma em Date e aplica validações
 const signupSchema = z
   .object({
@@ -50,6 +53,8 @@ interface SignupFormProps {
 }
 
 export default function SignupForm({ onToggle }: SignupFormProps) {
+
+  const Router = useRouter()
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -82,7 +87,10 @@ export default function SignupForm({ onToggle }: SignupFormProps) {
         // response: objeto completo retornado pelo Axios
         console.log('Status HTTP:', response.status);        // e.g. 201
         console.log('Headers:', response.headers);
-        console.log('Body da resposta:', response.data);     // o que o seu back enviou
+        console.log('Body da resposta:', response.data);  
+
+        Router.refresh()
+           // o que o seu back enviou
       })
       .catch((error) => {
         if (error.response) {
@@ -108,6 +116,7 @@ export default function SignupForm({ onToggle }: SignupFormProps) {
       toast({ title: 'Falha no cadastro', description: msg, variant: 'destructive' });
     } finally {
       setIsLoading(false);
+      Router.refresh()
     }
   };
 

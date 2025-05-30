@@ -16,7 +16,7 @@ interface SupplierDetailsProps {
 const SupplierDetails: React.FC<SupplierDetailsProps> = ({ isOpen, onClose, supplier, onEdit }) => {
   if (!supplier) return null;
 
-  const firstLetter = supplier.Name.charAt(0).toUpperCase();
+  const firstLetter = supplier.name.charAt(0).toUpperCase();
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -36,10 +36,10 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ isOpen, onClose, supp
               </Avatar>
               <div>
                 <h3 className="text-xl font-medium">
-                  {supplier.Name} 
+                  {supplier.name} 
                   <span className="text-gray-400 text-sm ml-1">(você)</span>
                 </h3>
-                <div className="flex gap-2 mt-1">
+                {/* <div className="flex gap-2 mt-1">
                   {supplier.categories && supplier.categories.map((category, index) => (
                     <Badge 
                       key={index} 
@@ -49,7 +49,7 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ isOpen, onClose, supp
                       {category.icon} {category.name}
                     </Badge>
                   ))}
-                </div>
+                </div> */}
               </div>
             </div>
             <Button 
@@ -62,11 +62,11 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ isOpen, onClose, supp
             </Button>
           </div>
 
-          {supplier.phone && (
+          {supplier.number && (
             <div className="flex items-center justify-between py-4 border-b">
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-gray-500" />
-                <span>{supplier.phone}</span>
+                <span>{supplier.number}</span>
               </div>
               <Button variant="ghost" size="icon">
                 <Copy className="h-5 w-5" />

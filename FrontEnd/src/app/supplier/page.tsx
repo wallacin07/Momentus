@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useToast } from '@/hooks/use-toast';
 
@@ -13,6 +13,7 @@ import SupplierForm from '../components/supplier/SupplierForm';
 import SupplierSearch from '../components/supplier/SupplierSearch';
 import SupplierHeader from '../components/supplier/SupplierHeader';
 import SupplierAlert from '../components/supplier/SupplierAlert';
+import axios from 'axios';
 
 const Suppliers: React.FC = () => {
   const [showAlert, setShowAlert] = useState(true);
@@ -22,6 +23,30 @@ const Suppliers: React.FC = () => {
   const [suppliers, setSuppliers] = useState<SupplierData[]>([]);
   const [selectedSupplier, setSelectedSupplier] = useState<SupplierData | null>(null);
   const { toast } = useToast();
+
+
+
+  useEffect(() => {
+  const fetchSuppliers = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/supplier",{
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    }});
+      setSuppliers(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar os clientes:", error);
+    }
+  };
+
+  fetchSuppliers();
+    
+    
+  }, [])
+
+    useEffect(() => {
+    console.log(suppliers)
+  }, [suppliers])
 
   const handleAddSupplier = () => {
     setShowForm(true);
@@ -33,25 +58,9 @@ const Suppliers: React.FC = () => {
 
   const handleSaveSupplier = (formData: any) => {
     const categories = [];
-    
-    if (formData.category === 'food') {
-      categories.push({ name: 'Alimentação', icon: '🍽️' });
-    } else if (formData.category === 'drinks') {
-      categories.push({ name: 'Bebidas', icon: '🍸' });
-    } else if (formData.category === 'decoration') {
-      categories.push({ name: 'Decoração', icon: '🎭' });
-    }
-    
-    const newSupplier = {
-      id: Date.now(),
-      Name: formData.Name,
-      cnpj: formData.cnpj || '',
-      email: formData.email || '',
-      phone: formData.phone || '',
-      categories: categories
-    };
-    
-    setSuppliers([...suppliers, newSupplier]);
+  
+
+    // setSuppliers([]);
     setShowForm(false);
     
     toast({
@@ -79,7 +88,7 @@ const Suppliers: React.FC = () => {
     
     toast({
       title: "fornecedor atualizado",
-      description: `${editedSupplier.Name} foi atualizado com sucesso.`,
+      description: `${editedSupplier.name} foi atualizado com sucesso.`,
     });
   };
 
