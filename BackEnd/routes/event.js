@@ -7,7 +7,7 @@ const req = require('express/lib/request');
 const EventService = require('../services/eventService');
 const EventController = require('../controllers/eventController');
 
-const eventService = new EventService(db.Event, db.Ceremonialist, db.Client);
+const eventService = new EventService(db.Events, db.Ceremonialist, db.Client);
 const eventController = new EventController(eventService);
 
 router.post('',auth.verifyToken ,async (req, res) => {
