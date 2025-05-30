@@ -8,8 +8,9 @@ module.exports = class EventController {
 
     async createEvent(req, res) {
         try {
-            const { description, name, date, status, clientId, user } = req.body;
-            const newEvent = await this.EventService.create(description, name, date, status, clientId, user.id);
+            const { description, name, date, status, clientId} = req.body;
+            const idUser = req.user.id;
+            const newEvent = await this.EventService.create(description, name, date, status, clientId, idUser);
             res.status(200).json(newEvent);
         } catch (error) {
             console.log(error);

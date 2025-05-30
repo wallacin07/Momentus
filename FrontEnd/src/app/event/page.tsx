@@ -14,20 +14,27 @@ const Index: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [clientsData, setClientsData] = useState<ClientEventData[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
-
+  const [clients, setClients] = useState<Client[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [clientsRes, eventsRes] = await Promise.all([
-          axios.get<Client[]>('http://localhost:8080/client'),
-          axios.get<Event[]>('http://localhost:8080/event'),
-        ]);
+
+    const clientes = await axios.get('http://localhost:8080/client',{
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    }})
+      setClients(clientes.data)
+
+  // const eventsRes = await axios.get('http://localhost:8080/event',{
+  //   headers: {
+  //     Authorization: `Bearer ${sessionStorage.getItem('token')}`
+  //   }})
+        console.log(clients)
 
         // mapeia apenas id e name
-        setClientsData(
-          clientsRes.data.map(c => ({ id: c.id, name: c.name }))
-        );
-        setEvents(eventsRes.data);
+       
+        console.log(clientsData)
+        // setEvents(eventsRes.data);
       } catch (err) {
         console.error('Erro ao buscar dados:', err);
       }
@@ -35,6 +42,12 @@ const Index: React.FC = () => {
 
     fetchData();
   }, []);
+
+    useEffect(() => {
+     setClientsData(
+          clients.map(c => ({ id: c.id, name: c.name }))
+        );
+  }, [clients]);
 
   const handleAddEvent = () => setShowForm(true);
   const handleCloseForm = () => setShowForm(false);

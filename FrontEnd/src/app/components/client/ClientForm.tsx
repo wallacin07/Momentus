@@ -37,7 +37,11 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
       "birthDate": formData.birthDate,
       "adress":formData.adress,
       "number": formData.phone
-    })
+    },
+    {
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    }})
     console.log(response.data)
     onSave(formData);
   };

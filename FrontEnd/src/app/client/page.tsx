@@ -40,7 +40,10 @@ const Clients: React.FC = () => {
   useEffect(() => {
   const fetchClients = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/client");
+      const response = await axios.get("http://localhost:8080/client",{
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    }});
       setClients(response.data);
     } catch (error) {
       console.error("Erro ao buscar os clientes:", error);
@@ -50,7 +53,7 @@ const Clients: React.FC = () => {
   fetchClients();
     
     
-  }, [clients])
+  }, [])
 
   const handleCloseForm = () => {
     setShowForm(false);
@@ -61,7 +64,7 @@ const Clients: React.FC = () => {
 
     setShowForm(false);
     toast({
-      title: "Fornecedor adicionado",
+      title: "cliente adicionado",
       description: `${formData.firstName} foi adicionado com sucesso.`,
     });
   };

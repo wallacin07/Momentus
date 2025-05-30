@@ -35,7 +35,10 @@ const EventForm: React.FC<EventFormProps> = ({ onClose, onSave, clients }) => {
       status: formData.eventType,
       clientId: Number(formData.client),
       ceremonialistId: 1,
-    });
+    },{
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    }});
     onSave();
   };
 

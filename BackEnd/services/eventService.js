@@ -7,7 +7,7 @@ module.exports = class EventService {
         this.Client = ClientModel;
     }
 
-    async create(description, name, date, status, clientId, ceremonialistId,eventId) {
+    async create(description, name, date, status, clientId, ceremonialistId) {
         const newEvent = await this.Event.create({
             description: description,
             name: name,
