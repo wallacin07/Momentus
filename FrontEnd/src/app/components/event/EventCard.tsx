@@ -9,6 +9,21 @@ interface EventCardProps {
   description: string;
 }
 
+
+function formatDateToDDMMYYYY(isoString: string | number | Date) {
+  const date = new Date(isoString);
+
+  // Extrai dia, mês e ano
+  const day   = date.getUTCDate();
+  const month = date.getUTCMonth() + 1; // Note: meses vão de 0 a 11
+  const year  = date.getUTCFullYear();
+
+  // Função auxiliar para zerar à esquerda
+  const pad = (num: number) => num.toString().padStart(2, '0');
+
+  return `${pad(day)}/${pad(month)}/${year}`;
+}
+
 const EventCard = ({ name, date, client, status, description}: EventCardProps) => {
   return (
     <div className="bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl p-6 text-white shadow-lg min-h-[200px] flex flex-col justify-between">
@@ -18,10 +33,10 @@ const EventCard = ({ name, date, client, status, description}: EventCardProps) =
 
       {/* Event details */}
       <div className="space-y-2">
-        <h3 className="font-bold text-lg">{name}</h3>
+        <h3 className="font-bold text-lg">{name} - {client.name}</h3>
         <div className="flex items-center gap-2 text-sm opacity-90">
           <Calendar className="w-4 h-4" />
-          <span>Ocorreu em {date}</span>
+          <span>Ocorreu em {formatDateToDDMMYYYY(date)}</span>
         </div>
         <div className="flex items-center gap-2 text-sm opacity-90">
           <User className="w-4 h-4" />

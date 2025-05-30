@@ -30,7 +30,7 @@ const EventForm: React.FC<EventFormProps> = ({ onClose, onSave, clients }) => {
     e.preventDefault();
     await axios.post('http://localhost:8080/event', {
       description: formData.eventType,
-      name: `${formData.eventType} - ${formData.client}`,
+      name: `${formData.eventType}`,
       date: formData.eventDate,
       status: formData.eventType,
       clientId: Number(formData.client),

@@ -25,16 +25,16 @@ const Index: React.FC = () => {
     }})
       setClients(clientes.data)
 
-  // const eventsRes = await axios.get('http://localhost:8080/event',{
-  //   headers: {
-  //     Authorization: `Bearer ${sessionStorage.getItem('token')}`
-  //   }})
+  const eventsRes = await axios.get('http://localhost:8080/event',{
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    }})
         console.log(clients)
 
         // mapeia apenas id e name
        
         console.log(clientsData)
-        // setEvents(eventsRes.data);
+        setEvents(eventsRes.data);
       } catch (err) {
         console.error('Erro ao buscar dados:', err);
       }
@@ -48,6 +48,10 @@ const Index: React.FC = () => {
           clients.map(c => ({ id: c.id, name: c.name }))
         );
   }, [clients]);
+
+      useEffect(() => {
+
+  }, [events]);
 
   const handleAddEvent = () => setShowForm(true);
   const handleCloseForm = () => setShowForm(false);
