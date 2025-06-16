@@ -1,6 +1,6 @@
 const db = require('../models');
 const auth = require('../auth');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 module.exports = class ClientService {
     constructor(ClientModel) {
