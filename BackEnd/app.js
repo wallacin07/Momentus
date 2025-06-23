@@ -13,6 +13,7 @@ const supplierRouter = require('./routes/supplier');
 const taskRouter = require('./routes/task');
 const eventRouter = require('./routes/event');
 const deliveresRouter = require('./routes/deliveres');
+const InvitedsRouter = require('./routes/inviteds');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/supplier',supplierRouter);
 app.use('/task',taskRouter);
 app.use('/event',eventRouter);
 app.use('/deliveres',deliveresRouter);
+app.use('/inviteds',InvitedsRouter);
 
 const db = require('./models');
 

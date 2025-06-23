@@ -7,11 +7,12 @@
     "port" : 3307,
     "dialect": "mysql"
   },
-  "test": {
-    "username": "",
-    "password": "",
-    "database": "database_test",
+  "linux": {
+    "username": "juan",
+    "password": "juan",
+    "database": "juan",
     "host": "127.0.0.1",
+    "port" : 3306,
     "dialect": "mysql"
   },
   "production": {
