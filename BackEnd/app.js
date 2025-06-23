@@ -14,6 +14,7 @@ const taskRouter = require('./routes/task');
 const eventRouter = require('./routes/event');
 const deliveresRouter = require('./routes/deliveres');
 const InvitedsRouter = require('./routes/inviteds');
+const PaymentsRouter = require('./routes/payements');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/task',taskRouter);
 app.use('/event',eventRouter);
 app.use('/deliveres',deliveresRouter);
 app.use('/inviteds',InvitedsRouter);
+app.use('/payments',PaymentsRouter);
 
 const db = require('./models');
 
