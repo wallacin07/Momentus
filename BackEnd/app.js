@@ -15,6 +15,7 @@ const eventRouter = require('./routes/event');
 const deliveresRouter = require('./routes/deliveres');
 const InvitedsRouter = require('./routes/inviteds');
 const PaymentsRouter = require('./routes/payements');
+const InstallmentsRouter = require('./routes/installments');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/event',eventRouter);
 app.use('/deliveres',deliveresRouter);
 app.use('/inviteds',InvitedsRouter);
 app.use('/payments',PaymentsRouter);
+app.use('/installments',InstallmentsRouter);
 
 const db = require('./models');
 
