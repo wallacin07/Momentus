@@ -19,13 +19,13 @@ const Index: React.FC = () => {
     const fetchData = async () => {
       try {
 
-    const clientes = await axios.get('http://localhost:8080/client',{
+    const clientes = await axios.get('http://52.67.69.112:8080/client',{
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }})
       setClients(clientes.data)
 
-  const eventsRes = await axios.get('http://localhost:8080/event',{
+  const eventsRes = await axios.get('http://52.67.69.112:8080/event',{
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }})

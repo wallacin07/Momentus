@@ -40,7 +40,7 @@ const Clients: React.FC = () => {
   useEffect(() => {
   const fetchClients = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/client",{
+      const response = await axios.get("http://52.67.69.112:8080/client",{
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }});
