@@ -82,7 +82,7 @@ export default function SignupForm({ onToggle }: SignupFormProps) {
       const data = signupSchema.parse(raw) as SignupData;
 
       await axios
-      .post('http://localhost:8080/ceremonialist', data)
+      .post('http://52.67.69.112:8080/ceremonialist', data)
       .then((response) => {
         // response: objeto completo retornado pelo Axios
         console.log('Status HTTP:', response.status);        // e.g. 201
