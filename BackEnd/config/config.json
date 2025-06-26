@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "root",
-    "password": "root",
+    "username": "admin",
+    "password": "LiefPercy78",
     "database": "juan",
-    "host": "127.0.0.1",
-    "port" : 3307,
+    "host": "database-2.cngwqacieilr.sa-east-1.rds.amazonaws.com",
+    "port" : 3306,
     "dialect": "mysql"
   },
   "linux": {
