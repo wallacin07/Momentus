@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader } from '@/app/baseComponents/sheet';
 import { X, Upload } from 'lucide-react';
 import { Input } from '../../baseComponents/input';
 import { Button } from '../../baseComponents/button';
@@ -34,7 +34,7 @@ const SupplierEditForm: React.FC<SupplierEditFormProps> = ({ isOpen, onClose, su
 
   const handleSubmit = async () => {
     if (formData) {
-         const response = await axios.post(`http://52.67.69.112:8080/supplier/update`, {
+         const response = await axios.post(`http://localhost:8080/supplier/update`, {
       "id": supplier?.id,
       "name": formData.name,
       "email": formData.email,

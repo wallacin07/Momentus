@@ -9,6 +9,7 @@ import EventForm from '../components/event/EventForm';
 import { AppLayout } from '../components/home/Layout/AppLayout';
 import axios from 'axios';
 import { Client, Event, ClientEventData } from '../types/types';
+import Link from 'next/link';
 
 const Index: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
@@ -19,13 +20,13 @@ const Index: React.FC = () => {
     const fetchData = async () => {
       try {
 
-    const clientes = await axios.get('http://52.67.69.112:8080/client',{
+    const clientes = await axios.get('http://localhost:8080/client',{
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }})
       setClients(clientes.data)
 
-  const eventsRes = await axios.get('http://52.67.69.112:8080/event',{
+  const eventsRes = await axios.get('http://localhost:8080/event',{
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }})
@@ -67,6 +68,7 @@ const Index: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             <AddEventCard onClick={handleAddEvent} />
             {events.map(evt => (
+              <Link href={`event/${evt.id}`} key={evt.id}>
               <EventCard
                 key={evt.id}
                 name={evt.name}
@@ -75,6 +77,7 @@ const Index: React.FC = () => {
                 status={evt.status}
                 description={evt.description}
               />
+              </Link>
             ))}
           </div>
 

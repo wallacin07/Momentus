@@ -29,7 +29,7 @@ const Suppliers: React.FC = () => {
   useEffect(() => {
   const fetchSuppliers = async () => {
     try {
-      const response = await axios.get("http://52.67.69.112:8080/supplier",{
+      const response = await axios.get("http://localhost:8080/supplier",{
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }});
@@ -57,10 +57,9 @@ const Suppliers: React.FC = () => {
   };
 
   const handleSaveSupplier = (formData: any) => {
-    const categories = [];
+
   
 
-    // setSuppliers([]);
     setShowForm(false);
     
     toast({

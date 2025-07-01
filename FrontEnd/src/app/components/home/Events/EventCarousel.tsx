@@ -1,8 +1,12 @@
-import { FC } from 'react';
-import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { EventCard, EventType, EventStatus } from './EventCard';
-import { Card } from '@/components/ui/card';
+// src/components/home/Events/EventCarousel.tsx
+"use client";
+
+import { FC } from "react";
+import Link from "next/link";              // ← import correto!
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { Button } from "@/app/baseComponents/button";
+import { EventCard, EventType, EventStatus } from "./EventCard";
+import { Card } from "@/app/baseComponents/card";
 
 interface EventsCarouselProps {
   title: string;
@@ -31,25 +35,19 @@ export const EventsCarousel: FC<EventsCarouselProps> = ({ title, events }) => {
           </Button>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        <Card className="border-dashed flex flex-col items-center justify-center h-60 cursor-pointer hover:bg-muted/50 transition-colors">
-          <div className="bg-muted rounded-full p-3">
-            <Plus className="h-6 w-6 text-muted-foreground" />
-          </div>
-          <p className="mt-4 text-muted-foreground">Adicionar evento</p>
-        </Card>
-        
-        {events.map(event => (
-          <EventCard 
-            key={event.id}
-            title={event.title}
-            date={event.date}
-            type={event.type}
-            status={event.status}
-            client={event.client}
-            imageUrl={event.imageUrl}
-          />
+        {events.map((event) => (
+          <Link href={`/event/${event.id}`} key={event.id}>
+            <EventCard
+              title={event.title}
+              date={event.date}
+              type={event.type}
+              status={event.status}
+              client={event.client}
+              imageUrl={event.imageUrl}
+            />
+          </Link>
         ))}
       </div>
     </div>

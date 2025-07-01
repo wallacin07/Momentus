@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/app/baseComponents/button';
+import { Input } from '@/app/baseComponents/input';
 import {
   Form,
   FormControl,
@@ -11,8 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Checkbox } from '@/components/ui/checkbox';
+} from '@/app/baseComponents/form';
+import { Checkbox } from '../../baseComponents/checkbox';
 import { Loader, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios'
 
@@ -82,7 +82,7 @@ export default function SignupForm({ onToggle }: SignupFormProps) {
       const data = signupSchema.parse(raw) as SignupData;
 
       await axios
-      .post('http://52.67.69.112:8080/ceremonialist', data)
+      .post('http://localhost:8080/ceremonialist', data)
       .then((response) => {
         // response: objeto completo retornado pelo Axios
         console.log('Status HTTP:', response.status);        // e.g. 201

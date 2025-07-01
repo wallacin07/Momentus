@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader } from '@/app/baseComponents/sheet';
 import { X, Upload } from 'lucide-react';
 
 import { Input } from '../../baseComponents/input';

@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/app/baseComponents/button';
+import { Input } from '@/app/baseComponents/input';
 import {
   Form, FormControl, FormField,
   FormItem, FormLabel, FormMessage
-} from '@/components/ui/form';
+} from '@/app/baseComponents/form';
 import { Loader, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -39,7 +39,7 @@ export default function LoginForm({ onToggle }: LoginFormProps) {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('http://52.67.69.112:8080/ceremonialist/login', data);
+      const response = await axios.post('http://localhost:8080/ceremonialist/login', data);
       sessionStorage.setItem("token",response.data)
       toast({
         title: 'Login bem‑sucedido',
