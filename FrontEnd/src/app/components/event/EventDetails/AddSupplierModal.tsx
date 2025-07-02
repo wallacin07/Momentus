@@ -1,44 +1,45 @@
-"use client"
-
+"use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/app/baseComponents/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/app/baseComponents/dialog";
 import { Button } from "@/app/baseComponents/button";
-import { Input } from "@/app/baseComponents/input";
 import { Label } from "@/app/baseComponents/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/baseComponents/select";
-import { Plus } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/baseComponents/select";
 import { SupplierData } from "../../supplier/SupplierItem";
 
 interface AddSupplierModalProps {
   isOpen: boolean;
-  onClose: () => void;
   suppliers: SupplierData[];
-  onConfirm: () => void;
+  onClose: () => void;
+  onConfirm: (supplier: SupplierData) => void;
 }
 
-const AddSupplierModal = ({ isOpen, onClose, suppliers, onConfirm }: AddSupplierModalProps) => {
-  const [selectedSupplier, setSelectedSupplier] = useState("");
-  const [showNewSupplierForm, setShowNewSupplierForm] = useState(false);
-  const [newSupplierName, setNewSupplierName] = useState("");
-  const [newSupplierCategory, setNewSupplierCategory] = useState("");
-
-  const existingSuppliers = [
-    { id: "1", name: "Buffet Delícia", category: "Alimentação" },
-    { id: "2", name: "Flores & Cia", category: "Decoração" },
-    { id: "3", name: "DJ Som Perfeito", category: "Música" },
-    { id: "4", name: "Fotógrafo Momentos", category: "Fotografia" },
-  ];
+const AddSupplierModal = ({
+  isOpen,
+  onClose,
+  suppliers,
+  onConfirm,
+}: AddSupplierModalProps) => {
+  const [selectedSupplier, setSelectedSupplier] = useState<SupplierData | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você adicionaria a lógica para salvar o fornecedor
-    console.log("Fornecedor adicionado:", { selectedSupplier, newSupplierName, newSupplierCategory });
-    onClose();
-    setSelectedSupplier("");
-    setShowNewSupplierForm(false);
-    setNewSupplierName("");
-    setNewSupplierCategory("");
+    if (selectedSupplier) {
+      onConfirm(selectedSupplier);
+      onClose();
+      setSelectedSupplier(null);
+    }
   };
 
   return (
@@ -49,31 +50,34 @@ const AddSupplierModal = ({ isOpen, onClose, suppliers, onConfirm }: AddSupplier
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="supplier-select">Selecionar Fornecedor</Label>
-            <div className="flex space-x-2">
-              <Select value={selectedSupplier} onValueChange={setSelectedSupplier}>
-                <SelectTrigger className="flex-1">
-                  <SelectValue placeholder="Escolha um fornecedor..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {existingSuppliers.map((supplier) => (
-                    <SelectItem key={supplier.id} value={supplier.id}>
-                      {supplier.name} - {supplier.category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              
-       
-            </div>
+            <Label>Selecionar Fornecedor</Label>
+            <Select
+              onValueChange={(value) => {
+                const supplier = suppliers.find((s) => s.id.toString() === value);
+                if (supplier) {
+                  setSelectedSupplier(supplier);
+                }
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Escolha um fornecedor..." />
+              </SelectTrigger>
+              <SelectContent>
+                {suppliers.map((supplier) => (
+                <SelectItem key={supplier.id} value={supplier.id.toString()}>
+                  {supplier.name} - {supplier.description}
+                </SelectItem>
+
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
-          
           <div className="flex justify-end space-x-2 pt-4">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancelar
             </Button>
-            <Button type="submit" disabled={!selectedSupplier && !newSupplierName}>
+            <Button type="submit" disabled={!selectedSupplier}>
               Adicionar
             </Button>
           </div>
