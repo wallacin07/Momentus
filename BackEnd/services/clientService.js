@@ -7,24 +7,24 @@ module.exports = class ClientService {
         this.Client = ClientModel;
     }
 
-    async create(name, email, password, CPF, birthDate, adress, number, ceremonialistId) {
+    async create({ name, email, password, CPF, birthDate, address, number, ceremonialistId }) {
         const hash = await bcrypt.hash(password, parseInt(10));
         const newClient = await this.Client.create({
-            name: name,
-            email: email,
+            name,
+            email,
             password: hash,
-            CPF: CPF,
-            birthDate: birthDate,
-            adress: adress,
-            number: number,
-            ceremonialistId: ceremonialistId
+            CPF,
+            birthDate,
+            address,
+            number,
+            ceremonialistId
         });
         return newClient;
     }
 
     async findAll() {
         const allClient = await this.Client.findAll({
-            attributes: ['id', 'name', 'email', 'CPF', 'birthDate', 'adress','number', 'ceremonialistId'],
+            attributes: ['id', 'name', 'email', 'CPF', 'birthDate', 'address','number', 'ceremonialistId'],
         });
         return allClient;
     }
