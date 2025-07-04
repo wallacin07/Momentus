@@ -86,12 +86,11 @@ export default function EventOrganization() {
 
         {/* Reminders e Tabs */}
         <Tabs defaultValue="lembretes" className="space-y-6 mt-12">
-          <TabsList className="grid w-full grid-cols-5 bg-white border shadow-sm">
+          <TabsList className="grid w-full grid-cols-4 bg-white border shadow-sm">
             <TabsTrigger value="lembretes" className="flex items-center space-x-2"><Circle className="w-4 h-4" /><span>Lembretes</span></TabsTrigger>
             <TabsTrigger value="tasks" className="flex items-center space-x-2"><CheckSquare className="w-4 h-4" /><span>Tasks</span></TabsTrigger>
             <TabsTrigger value="payments" className="flex items-center space-x-2"><DollarSign className="w-4 h-4" /><span>Pagamentos</span></TabsTrigger>
             <TabsTrigger value="guests" className="flex items-center space-x-2"><Users className="w-4 h-4" /><span>Convidados</span></TabsTrigger>
-            <TabsTrigger value="suppliers" className="flex items-center space-x-2"><Users className="w-4 h-4" /><span>Equipe</span></TabsTrigger>
           </TabsList>
           <TabsContent value="lembretes" className="space-y-4">
             {reminders.map((r, idx) => (
@@ -110,11 +109,8 @@ export default function EventOrganization() {
             ))}
           </TabsContent>
           <TabsContent value="tasks"><TasksTab /></TabsContent>
-          <TabsContent value="payments"><PaymentsTab /></TabsContent>
+          <TabsContent value="payments"><PaymentsTab suppliers={team} /></TabsContent>
           <TabsContent value="guests"><GuestsTab /></TabsContent>
-          <TabsContent value="suppliers">
-            {/* conteúdo pode ser repetido ou outra UI */}
-          </TabsContent>
         </Tabs>
       </div>
     </div>
