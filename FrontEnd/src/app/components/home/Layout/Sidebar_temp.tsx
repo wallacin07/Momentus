@@ -105,29 +105,15 @@ export const Sidebar: FC = () => {
           badge={3}
         />
         <SidebarItem 
-          icon={<FileText size={20} />} 
-          label="Orçamentos" 
-          to="/orcamentos"
-        />
-        <SidebarItem 
           icon={<UserRoundPlus size={20} />} 
           label="Clientes" 
           to="/client"
         />
-        <SidebarItem 
-          icon={<FileStack size={20} />} 
-          label="Contratos" 
-          to="/contratos"
-        />
+
         <SidebarItem 
           icon={<Clock size={20} />} 
           label="Pagamentos" 
           to="/pagamentos"
-        />
-        <SidebarItem 
-          icon={<Warehouse size={20} />} 
-          label="Documentos" 
-          to="/documentos"
         />
         <SidebarItem 
           icon={<UserCheck size={20} />} 
