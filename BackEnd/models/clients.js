@@ -29,7 +29,7 @@ module.exports= (sequelize) => {
             type:Sequelize.DATE,
             allowNull:false
         },
-        adress:{
+        address:{
             type:Sequelize.STRING,
             allowNull:false
         },
