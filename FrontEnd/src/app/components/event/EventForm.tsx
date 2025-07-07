@@ -28,7 +28,7 @@ const EventForm: React.FC<EventFormProps> = ({ onClose, onSave, clients }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await axios.post('http://localhost:8080/event', {
+    await axios.post('http://52.67.69.112:8080/event', {
       description: formData.eventType,
       name: `${formData.eventType}`,
       date: formData.eventDate,

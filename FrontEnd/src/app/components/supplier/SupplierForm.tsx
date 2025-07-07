@@ -25,7 +25,7 @@ const SupplierForm: React.FC<SupplierFormProps> = ({ onClose, onSave }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      const response = await axios.post("http://localhost:8080/supplier", {
+      const response = await axios.post("http://52.67.69.112:8080/supplier", {
       "name": formData.Name,
       "email": formData.email,
       "number": formData.phone,

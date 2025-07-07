@@ -29,7 +29,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await axios.post("http://localhost:8080/client", {
+    const response = await axios.post("http://52.67.69.112:8080/client", {
       "name": formData.firstName + " " + formData.lastName,
       "email": formData.email,
       "password": formData.password,
