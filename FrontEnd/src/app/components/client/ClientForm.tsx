@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { X, Calendar, Check } from 'lucide-react';
 import axios from 'axios';
+import { Tooltip } from '@/app/baseComponents/tooltip';
 
 interface ClientFormProps {
   onClose: () => void;
@@ -27,8 +28,30 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+
+
+    const isUnder18 = (birthDateString: string): boolean => {
+      const today = new Date();
+      const birthDate = new Date(birthDateString);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      // se ainda não fez aniversário este ano, subtrai 1
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age < 18;
+    };
+  
+
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if(isUnder18(formData.birthDate)){
+      
+    }
+    
     const response = await axios.post("http://localhost:8080/client", {
       "name": formData.firstName + " " + formData.lastName,
       "email": formData.email,
