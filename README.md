@@ -3,17 +3,19 @@
 
 Tarefas Front:
 
-    Conferir datas(de evento, de criação do cliente)
-    Criar Mock mais definido
-    Integrar com o Back a parte de pagamento
-    Gerar lembrete quando pagamento estiver vencido
-    Fazer ele ficar Responsivo nas partes principais que o Cliente vai ver
-    Fazer tela de Login para o Cliente
-    Fazer criação de convidados com forms e gerar link com token para eles(que ira possuir apenas uma imagem com o QrCode)
-    Tentar fazer parte do Calendario e talvez um script CI/CD da AWS
-    Fazer Parte do Pagamento(forms separados que da pra escolher o evento)
-    Arrumar dropdown de seleção de parte recebedora, podendo ser Você e outros funcionarios
+    Conferir datas(de evento, de criação do cliente).
+    Criar Mock mais definido.
+    Integrar com o Back a parte de pagamento.
+    Gerar lembrete quando pagamento estiver vencido.
+    Fazer ele ficar Responsivo nas partes principais que o Cliente vai ver.
+    Fazer tela de Login para o Cliente.
+    Fazer criação de convidados com forms e gerar link com token para eles(que ira possuir apenas uma imagem com o QrCode).
+    Tentar fazer parte do Calendario e talvez um script CI/CD da AWS.
+    Fazer Parte do Pagamento(forms separados que da pra escolher o evento).
+    Arrumar dropdown de seleção de parte recebedora, podendo ser Você e outros funcionarios.
+    Adicionar um calendario que fará ser possivel selecionar a data em todos os formularios de data.
 
 Tarefas Back:
 
-    Procurar pagamentos certinhos do evento, e as parcelas
+    Procurar pagamentos certinhos do evento, e as parcelas.
+    deixar bonitinho o AWS para apagar banco e inserir Mock no Banco direto, assim que ele for inicializado.
