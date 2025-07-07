@@ -9,8 +9,8 @@ module.exports = class ClientService {
         this.Client = ClientModel;
     }
 
-    async create({ name, email, password, CPF, birthDate, address, number, ceremonialistId }) {
-        const hash = await bcrypt.hash(password, parseInt(round_salts));
+    async create(name, email, password, CPF, birthDate, address, number, ceremonialistId) {
+        const hash = await bcrypt.hash(password,parseInt(round_salts));
         const newClient = await this.Client.create({
             name,
             email,
