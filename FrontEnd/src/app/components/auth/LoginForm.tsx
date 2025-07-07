@@ -39,7 +39,7 @@ export default function LoginForm({ onToggle }: LoginFormProps) {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('http://52.67.69.112:8080/ceremonialist/login', data);
+      const response = await axios.post('http://localhost:8080/ceremonialist/login', data);
       sessionStorage.setItem("token",response.data)
       toast({
         title: 'Login bem‑sucedido',
