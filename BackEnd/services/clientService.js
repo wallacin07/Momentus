@@ -2,13 +2,15 @@ const db = require('../models');
 const auth = require('../auth');
 const bcrypt = require('bcrypt');
 
+var round_salts = 10;
+
 module.exports = class ClientService {
     constructor(ClientModel) {
         this.Client = ClientModel;
     }
 
     async create({ name, email, password, CPF, birthDate, address, number, ceremonialistId }) {
-        const hash = await bcrypt.hash(password, parseInt(10));
+        const hash = await bcrypt.hash(password, parseInt(round_salts));
         const newClient = await this.Client.create({
             name,
             email,
