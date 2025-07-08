@@ -5,13 +5,13 @@ import { ArrowRight, Link, MoreHorizontal } from 'lucide-react';
 
 export interface Payment {
   id: string;
-  fromName: string;
-  toName: string;
+  Client: string;
+  Receiver: string;
   amount: number;
   installments: number;
   currentInstallment: number;
   dueDate: string;
-  status: 'pending' | 'paid' | 'overdue';
+  status: "pending";
   category: string;
 }
 
@@ -47,25 +47,22 @@ const PaymentCard = ({ payment }: PaymentCardProps) => {
           {/* Payment Flow */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                <span className="text-orange-600 font-semibold text-sm">
-                  {payment.fromName.charAt(0).toUpperCase()}
-                </span>
-              </div>
-              <span className="font-medium text-gray-800">{payment.fromName}</span>
+           
+              <span className="font-medium text-gray-800">{payment.Client}</span>
             </div>
             
             <ArrowRight className="w-4 h-4 text-gray-400" />
             
             <div className="flex items-center gap-2">
-              <span className="font-medium text-gray-800">{payment.toName}</span>
+              <span className="font-medium text-gray-800">{payment.Receiver}</span>
             </div>
           </div>
 
           {/* Category */}
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <div className="w-4 h-4 bg-blue-100 rounded flex items-center justify-center">
-              <span className="text-blue-600 text-xs">💎</span>
+          <div className="flex items-center gap-4 text-sm text-gray-600">
+              <span className="text-l text-black">Status:</span>
+            <div className="w-auto h-4 bg-blue-100 rounded flex items-center justify-center">
+              <span className="text-blue-600 text-xs">{payment.status}</span>
             </div>
             <span>{payment.category}</span>
           </div>
@@ -75,7 +72,7 @@ const PaymentCard = ({ payment }: PaymentCardProps) => {
         <div className="flex items-center gap-4">
           <div className="text-right">
             <div className="font-semibold text-gray-800">R$ {payment.amount}</div>
-            {payment.installments > 1 && (
+            {payment.installments >= 1 && (
               <div className="text-xs text-gray-500">
                 {payment.currentInstallment}/{payment.installments} parcelas
               </div>
@@ -83,13 +80,8 @@ const PaymentCard = ({ payment }: PaymentCardProps) => {
           </div>
           
           <div className="flex items-center gap-2">
-            <button className="p-1 text-gray-400 hover:text-gray-600">
-              <Link className="w-4 h-4" />
-            </button>
-            <button className="p-1 text-gray-400 hover:text-gray-600">
-              <MoreHorizontal className="w-4 h-4" />
-            </button>
-            <ArrowRight className="w-4 h-4 text-gray-400" />
+
+      
           </div>
         </div>
       </div>

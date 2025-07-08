@@ -1,0 +1,183 @@
+{
+  "Ceremonialists": [
+    {
+      "id": 1,
+      "name": "ABC Cerimonial Ltda",
+      "email": "contato@abccerimonial.com.br",
+      "password": "senha123",
+      "CNPJ": "12.345.678/0001-99",
+      "birthDate": "1980-01-01T00:00:00.000Z",
+      "adress": "Rua Visconde de Pirajá, 987"
+    },
+    {
+      "id": 2,
+      "name": "Grand Eventos Ltda",
+      "email": "suporte@grandeventos.com.br",
+      "password": "fest@2025",
+      "CNPJ": "11.222.333/0001-44",
+      "birthDate": "1975-07-10T00:00:00.000Z",
+      "adress": "Av. Paulista, 1500"
+    }
+  ],
+  "Clients": [
+    {
+      "id": 1,
+      "name": "João Silva",
+      "email": "joao.silva@gmail.com",
+      "password": "segredo",
+      "CPF": "123.456.789-00",
+      "birthDate": "1990-05-20T00:00:00.000Z",
+      "address": "Av. C, 789",
+      "number": "101",
+      "ceremonialistId": 1
+    },
+    {
+      "id": 2,
+      "name": "Maria Oliveira",
+      "email": "maria.oliveira@gmail.com",
+      "password": "maria123",
+      "CPF": "987.654.321-00",
+      "birthDate": "1985-11-30T00:00:00.000Z",
+      "address": "Rua D, 321",
+      "number": "22",
+      "ceremonialistId": 2
+    }
+  ],
+  "Suppliers": [
+    {
+      "id": 1,
+      "name": "Buffet Real Ltda",
+      "email": "contato@buffetreal.com.br",
+      "number": "(11) 99999-8888",
+      "address": "Rua E, 654",
+      "description": "Buffet especializado em eventos corporativos",
+      "CNPJ": "98.765.432/0001-00"
+    },
+    {
+      "id": 2,
+      "name": "Decoração Luxo Ltda",
+      "email": "vendas@decoracaoluxo.com.br",
+      "number": "(21) 98888-7777",
+      "address": "Av. F, 987",
+      "description": "Aluguel de decorações temáticas",
+      "CNPJ": "22.333.444/0001-55"
+    },
+    {
+      "id": 3,
+      "name": "Som e Luz Produções Ltda",
+      "email": "contato@someiluz.com.br",
+      "number": "(31) 97777-6666",
+      "address": "Rua H, 123",
+      "description": "Serviços de som, iluminação e DJ",
+      "CNPJ": "33.444.555/0001-66"
+    }
+  ],
+  "Events": [
+    {
+      "id": 1,
+      "description": "Festa de Aniversário da Maria",
+      "name": "Aniversário Maria",
+      "date": "2025-08-15T19:00:00.000Z",
+      "status": "scheduled",
+      "clientId": 2,
+      "ceremonialistId": 2
+    },
+    {
+      "id": 2,
+      "description": "Casamento do João e Ana",
+      "name": "Casamento JoAna",
+      "date": "2025-09-20T16:00:00.000Z",
+      "status": "confirmed",
+      "clientId": 1,
+      "ceremonialistId": 1
+    }
+  ],
+  "Deliveres": [
+    {
+      "id": 1,
+      "name": "Carlos Pereira",
+      "email": "carlos.delivery@gmail.com",
+      "number": "(11) 97777-6666",
+      "address": "Rua G, 111",
+      "eventId": 1,
+      "supplierId": 1
+    }
+  ],
+  "Inviteds": [
+    {
+      "id": 1,
+      "name": "Pedro Santos",
+      "CPF": "111.222.333-44",
+      "phone": "(11) 95555-4444",
+      "acessToken": "token123",
+      "eventId": 2
+    },
+    {
+      "id": 2,
+      "name": "Ana Pereira",
+      "CPF": "222.333.444-55",
+      "phone": "(21) 94444-3333",
+      "acessToken": "token456",
+      "eventId": 1
+    },
+    {
+      "id": 3,
+      "name": "Lucas Ferreira",
+      "CPF": "333.444.555-66",
+      "phone": "(31) 93333-2222",
+      "acessToken": "token789",
+      "eventId": 2
+    },
+    {
+      "id": 4,
+      "name": "Mariana Costa",
+      "CPF": "444.555.666-77",
+      "phone": "(41) 92222-1111",
+      "acessToken": "token901",
+      "eventId": 1
+    }
+  ],
+  "Payments": [
+    {
+      "id": 1,
+      "value": 5000.00,
+      "receiver": "Buffet Real Ltda",
+      "eventId": 1,
+      "ceremonialistId": 2
+    }
+  ],
+  "Installments": [
+    {
+      "id": 1,
+      "status": "paid",
+      "value": 2500.00,
+      "number": 1,
+      "paymentId": 1
+    },
+    {
+      "id": 2,
+      "status": "pending",
+      "value": 2500.00,
+      "number": 2,
+      "paymentId": 1
+    }
+  ],
+  "Tasks": [
+    {
+      "id": 1,
+      "description": "Montar decoração",
+      "name": "Decoração",
+      "date": "2025-08-14T09:00:00.000Z",
+      "status": "pending",
+      "eventId": 1
+    },
+    {
+      "id": 2,
+      "description": "Enviar convites",
+      "name": "Convites",
+      "date": "2025-09-01T10:00:00.000Z",
+      "status": "scheduled",
+      "eventId": 2
+    }
+  ]
+}

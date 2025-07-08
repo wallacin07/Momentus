@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { X, Calendar, Check } from 'lucide-react';
 import axios from 'axios';
-import { Tooltip } from '@/app/baseComponents/tooltip';
+import { useToast } from '@/hooks/use-toast';
 
 interface ClientFormProps {
   onClose: () => void;
@@ -23,12 +23,16 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
 
   });
 
+    const { toast } = useToast();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
     const isUnder18 = (birthDateString: string): boolean => {
       const today = new Date();
@@ -47,28 +51,42 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if(isUnder18(formData.birthDate)){
-      
+  if (isUnder18(formData.birthDate)) {
+      toast({
+        title: 'Idade Inválida',
+        description: 'O cliente deve ter pelo menos 18 anos.',
+        variant: 'destructive',
+      });
+      return;
     }
-    
-    const response = await axios.post("http://localhost:8080/client", {
-      "name": formData.firstName + " " + formData.lastName,
-      "email": formData.email,
-      "password": formData.password,
-      "CPF": formData.cpf,
-      "birthDate": formData.birthDate,
-      "adress":formData.adress,
-      "number": formData.phone
-    },
-    {
-    headers: {
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`
-    }})
-    console.log(response.data)
-    onSave(formData);
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/client',
+        {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          password: formData.password,
+          CPF: formData.cpf,
+          birthDate: formData.birthDate,
+          adress: formData.adress,
+          number: formData.phone,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          },
+        }
+      );
+
+      onSave(formData);
+    } catch (error: any) {
+      const msg = error.response?.data?.message ?? 'Erro ao salvar cliente.';
+      toast({ title: 'Erro ao adicionar cliente', description: msg, variant: 'destructive' });
+    }
   };
 
+  
   return (
     <div className="fixed inset-y-0 right-0 w-full sm:w-[500px] bg-white shadow-xl z-50 overflow-y-auto">
       <div className="flex justify-between items-center p-4 border-b">
@@ -159,16 +177,14 @@ const ClientForm: React.FC<ClientFormProps> = ({ onClose, onSave }) => {
               Data de nascimento
             </label>
             <div className="relative">
-              <input
-                type="text"
-                name="birthDate"
+                <input
+                type="date"
                 value={formData.birthDate}
                 onChange={handleChange}
-                placeholder="Se preferir, digite a data"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                required
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <Calendar className="h-5 w-5 text-gray-400" />
               </div>
             </div>
           </div>

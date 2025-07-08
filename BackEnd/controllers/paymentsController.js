@@ -40,8 +40,8 @@ module.exports = class PaymentsController {
     async updatePayment(req, res) {
         try {
             const { id } = req.params;
-            const { value } = req.body;
-            const updatedPayment = await this.paymentsService.update(id, value);
+            const { value, receiver } = req.body;
+            const updatedPayment = await this.paymentsService.update(id, receiver, value);
             if (!updatedPayment) {
                 return res.status(404).json({ error: 'Payment not found' });
             }

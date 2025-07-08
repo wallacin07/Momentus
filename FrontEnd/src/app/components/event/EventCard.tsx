@@ -36,7 +36,9 @@ const EventCard = ({ name, date, client, status, description}: EventCardProps) =
         <h3 className="font-bold text-lg">{name} - {client.name}</h3>
         <div className="flex items-center gap-2 text-sm opacity-90">
           <Calendar className="w-4 h-4" />
-          <span>Ocorreu em {formatDateToDDMMYYYY(date)}</span>
+          <span>{new Date(date).valueOf() > Date.now()
+    ? `Ocorrerá em ${formatDateToDDMMYYYY(date)}` 
+    : `Ocorreu em ${formatDateToDDMMYYYY(date)}`}</span>
         </div>
         <div className="flex items-center gap-2 text-sm opacity-90">
           <User className="w-4 h-4" />

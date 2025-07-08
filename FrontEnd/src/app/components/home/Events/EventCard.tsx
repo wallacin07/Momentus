@@ -78,7 +78,9 @@ export const EventCard: FC<EventCardProps> = ({
       <div className="p-3">
         <h3 className="font-medium line-clamp-1">{client}</h3>
         <h4 className="text-sm text-muted-foreground line-clamp-1">{title}</h4>
-        <p className="text-xs mt-2">Ocorrerá em {date}</p>
+        <p className="text-xs mt-2">{new Date(date).valueOf() > Date.now()
+    ? `Ocorrerá em ${date}` 
+    : `Ocorreu em ${date}`}</p>
       </div>
     </Card>
   );

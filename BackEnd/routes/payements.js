@@ -3,23 +3,23 @@ const router = express.Router();
 const db = require('../models');
 const auth = require('../auth');
 
-const InvitedsService = require('../services/invitedsService');
-const InvitedsController = require('../controllers/invitedsController');
+const PaymentsService = require('../services/invitedsService');
+const PaymentsController = require('../controllers/paymentsController');
 
-const invitedsService = new InvitedsService(db.Inviteds, db.Events);
-const invitedsController = new InvitedsController(invitedsService);
+const PaymentsService = new PaymentsService(db.Payments, db.Events);
+const PaymentsController = new PaymentsController(PaymentsService);
 
 router.post('', auth.verifyToken, async (req, res) => {
-    invitedsController.createInvited(req, res);
+    invitedsController.createPayment(req, res);
 });
 router.get('', auth.verifyToken, async (req, res) => {
-    invitedsController.findAllInviteds(req, res);
+    invitedsController.findAllPayments(req, res);
 });
 router.get('/:id', auth.verifyToken, async (req, res) => {
-    invitedsController.getInvitedByPk(req, res);
+    invitedsController.getPaymentByPk(req, res);
 });
 router.put('', auth.verifyToken, async (req, res) => {
-    invitedsController.updateInvited(req, res);
+    invitedsController.updatePayment(req, res);
 });
 
 module.exports = router;

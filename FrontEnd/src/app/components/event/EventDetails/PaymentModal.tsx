@@ -34,13 +34,13 @@ const PaymentModal = ({team, isOpen, onClose, onSubmit }: PaymentModalProps) => 
     }
 
     onSubmit({
-      fromName: formData.fromName,
-      toName: formData.toName,
+      Client: formData.fromName,
+      Receiver: formData.toName,
       amount: parseFloat(formData.amount),
       installments: parseInt(formData.installments),
       currentInstallment: 1,
       dueDate: formData.dueDate,
-      status: 'pending',
+      status: "pending",
       category: formData.category || 'Sem categoria'
     });
 
@@ -115,6 +115,7 @@ const PaymentModal = ({team, isOpen, onClose, onSubmit }: PaymentModalProps) => 
                   placeholder="1"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
+                
               </div>
 
           </div>
@@ -137,20 +138,11 @@ const PaymentModal = ({team, isOpen, onClose, onSubmit }: PaymentModalProps) => 
 
           {/* Parte recebedora */}
         <div>
-  <div 
-    className="flex items-center justify-between cursor-pointer"
-    onClick={() => setShowReceiver(!showReceiver)}
-  >
-    <span className="font-medium text-gray-800">Parte recebedora</span>
-    <Plus className={`w-5 h-5 text-gray-400 transition-transform ${showReceiver ? 'rotate-45' : ''}`} />
-  </div>
-  
-  <div className="mt-2 p-3 border border-dashed border-gray-300 rounded-lg">
-    <span className="text-gray-500">Selecionar parte do pagamento</span>
+
   </div>
 
-  {showReceiver && (
     <div className="mt-4 space-y-3">
+    <span className="font-medium text-gray-800">Parte recebedora</span>
       {/* SELECT DE FORNECEDORES */}
       <Select
         value={formData.toName}
@@ -168,28 +160,11 @@ const PaymentModal = ({team, isOpen, onClose, onSubmit }: PaymentModalProps) => 
         </SelectContent>
       </Select>
 
-      {/* Se quiser manter categoria como texto livre use este input: */}
-      <input
-        type="text"
-        value={formData.category}
-        onChange={(e) => handleInputChange('category', e.target.value)}
-        placeholder="Categoria (ex: Casamento, Fornecedor)"
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-      />
     </div>
-  )}
-</div>
+  
 
-          {/* Lembretes de pagamento */}
-          <div className="flex items-center justify-between py-4">
-            <div className="flex items-center gap-2">
-              <span className="font-medium text-gray-800">Lembretes de pagamento</span>
-              <HelpCircle className="w-4 h-4 text-gray-400" />
-            </div>
-            <div className="w-12 h-6 bg-gray-200 rounded-full relative">
-              <div className="w-5 h-5 bg-white rounded-full shadow absolute top-0.5 left-0.5"></div>
-            </div>
-          </div>
+
+        
 
           {/* Submit Button */}
           <button

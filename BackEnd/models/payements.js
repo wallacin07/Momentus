@@ -11,6 +11,10 @@ module.exports = (sequelize) => {
         value: {
             type: Sequelize.FLOAT,
             allowNull: false
+        },
+        receiver: {
+            type: Sequelize.STRING,
+            allowNull: false
         }
     });
 

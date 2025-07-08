@@ -3,43 +3,45 @@ const auth = require('../auth');
 
 module.exports = class PaymentsService {
     constructor(PaymentsModel,EventsModel) {
-        this.Inviteds = PaymentsModel;
+        this.Payments = PaymentsModel;
         this.Events = EventsModel;
     }
 
-    async create(value, ceremonialistId, eventId) {
+    async create(value, receiver, ceremonialistId, eventId) {
         const existedEvent = this.Events.findByPk(eventId)
         if(!existedEvent)
         {
             throw new Error("Event not found")
         }
 
-        const newInvited = await this.Inviteds.create({
+        const newPayments = await this.Payments.create({
             value:value,
+            receiver:receiver,
             eventId:eventId,
             ceremonialistId:ceremonialistId
         });
-        return newInvited;
+        return newPayments;
     }
 
     async findAll() {
-        const allInviteds = await this.Inviteds.findAll({
-            attributes: ['id', 'value', 'eventId', 'ceremonialistId'],
+        const allPayments = await this.Payments.findAll({
+            attributes: ['id', 'receiver','value', 'eventId', 'ceremonialistId'],
         });
-        return allInviteds;
+        return allPayments;
     }
 
     async getByPk(pk) {
-        const currInvited = await this.Inviteds.findByPk(pk);
-        return currInvited;
+        const currPayments = await this.Payments.findByPk(pk);
+        return currPayments;
     }
 
-    async update(id, value) {
-        const currInvited = await this.Inviteds.findByPk(id);
+    async update(id, value, receiver) {
+        const currPayments = await this.Payments.findByPk(id);
         if (currInvited) {
-            currInvited.value = value
-            await currInvited.save();
+            currPayments.value = value
+            currPayments.receiver = receiver
+            await currPayments.save();
         }
-        return currInvited;
+        return currPayments;
     }
 }
